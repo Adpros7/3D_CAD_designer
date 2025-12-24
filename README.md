@@ -72,3 +72,8 @@ This reads `html_files/` and stores the cache under `.search_cache/`. Subsequent
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
+
+
+## Notes
+
+README create by codex AI.
