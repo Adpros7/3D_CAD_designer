@@ -1,4 +1,7 @@
 from concurrent.futures.thread import ThreadPoolExecutor
+import os
+import subprocess
+import tempfile
 import easier_openai
 from search import search
 import pyperclip
@@ -16,8 +19,10 @@ def main():
     entry = tk.Entry(root, bg="black", fg="white")
     entry.place(relx=0.5, rely=0.1, relwidth=0.8,
                 relheight=0.1, anchor="center")
-    tk.Label(root, text="Download as:", justify="center").place(relx=0.4, rely=0.6)
-    download_as = ttk.Combobox(root, values=["stl", "blend", "no download"], name="download as")
+    tk.Label(root, text="Download as:",
+             justify="center").place(relx=0.4, rely=0.6)
+    download_as = ttk.Combobox(
+        root, values=["stl", "blend", "no download"], name="download as")
     download_as.current(0)
     download_as.place(rely=0.7, relwidth=0.4, relx=0.5, anchor="center")
 
@@ -30,12 +35,26 @@ def main():
             "```python\n").removesuffix("\n```")
         pyperclip.copy(final)
         print(final)
+        if download_as.get() != "no download":
+            with open(f"tempfileDownload{download_as.get()}", "w") as f:
+                f.write(final)
+            command = ['blender', '--background', '--python', f"tempfileDownload{download_as.get()}"]
+            try:
+                result = subprocess.run(command, check=True)
+                print("File downloaded to your downloads folder:", result)
+
+
+            except subprocess.CalledProcessError as e:
+                print("An error occurred while download file:", e)
+
+            os.remove(f"tempfileDownload{download_as.get()}")
         return final
 
     def start_work():
         global requirements
         global thread
-        requirements = entry.get() + f" At the end of the code, make it download like this: {download_as.get()}"
+        requirements = entry.get() + \
+            f" At the end of the code, make it download like this to the downloads folder of whatever operating system they are on: {download_as.get()}. Add this as a comment to the start of the code: {entry.get()} DO NOT USE ANY DEPRECATED FUNCTIONS"
         thread = ThreadPoolExecutor().submit(worker)
         print("sent")
         thread.add_done_callback(lambda future: copied_message.place(

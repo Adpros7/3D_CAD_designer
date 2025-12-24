@@ -11,6 +11,10 @@ INDEX_FILE = os.path.join(CACHE_DIR, "index.joblib")
 
 os.makedirs(CACHE_DIR, exist_ok=True)
 
+# -------------------------
+# HTML STRIPPER
+# -------------------------
+
 
 class BlenderDocStripper(HTMLParser):
     def __init__(self, limit=300_000):
@@ -55,6 +59,9 @@ class BlenderDocStripper(HTMLParser):
         return " ".join(self.parts)
 
 
+# -------------------------
+# TEXT EXTRACTION
+# -------------------------
 def extract_text(path):
     with open(path, "r", encoding="utf-8", errors="ignore") as f:
         html = f.read()
@@ -68,6 +75,9 @@ def extract_text(path):
     return stripper.get_text().lower()
 
 
+# -------------------------
+# INDEX BUILD
+# -------------------------
 def build_index():
     print("building index...")
     t0 = time.time()
@@ -76,15 +86,39 @@ def build_index():
     files = []
 
     for name in os.listdir(HTML_DIR):
-        if name.endswith(".html"):
-            files.append(name)
-            texts.append(extract_text(os.path.join(HTML_DIR, name)))
+        if not name.endswith(".html"):
+            continue
+
+        lname = name.lower()
+
+        # Option 3: drop old Blender versions by filename
+        if any(v in lname for v in ("2.", "2x", "3.0", "3.1", "3.2", "3.3", "3.4", "3.5")):
+            continue
+
+        path = os.path.join(HTML_DIR, name)
+        text = extract_text(path)
+
+        # Option 1: drop deprecated content by text
+        if any(k in text for k in (
+            "deprecated",
+            "no longer available",
+            "removed in",
+            "this feature has been removed",
+            "legacy"
+        )):
+            continue
+
+        files.append(name)
+        texts.append(text)
+
+    if not texts:
+        raise RuntimeError("no valid docs indexed")
 
     vectorizer = TfidfVectorizer(
         analyzer="char_wb",
         ngram_range=(3, 6),
         min_df=1,
-        max_features=50000,
+        max_features=50_000,
         dtype=np.float32
     )
 
@@ -99,6 +133,9 @@ def build_index():
     print(f"done in {time.time() - t0:.2f}s")
 
 
+# -------------------------
+# LOAD INDEX
+# -------------------------
 def load_index():
     if not os.path.exists(INDEX_FILE):
         build_index()
@@ -108,6 +145,9 @@ def load_index():
 vectorizer, matrix, files = load_index()
 
 
+# -------------------------
+# SEARCH
+# -------------------------
 def search(query, top_k=5):
     q = vectorizer.transform([query.lower()])
     scores = (matrix @ q.T).toarray().ravel()
@@ -118,6 +158,9 @@ def search(query, top_k=5):
     return [(files[i], float(scores[i])) for i in idx]
 
 
+# -------------------------
+# CLI TEST
+# -------------------------
 if __name__ == "__main__":
     for f, s in search("rigging bones animation"):
         print(f, round(s, 4))
