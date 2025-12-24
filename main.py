@@ -34,7 +34,7 @@ def main():
     def start_work():
         global requirements
         global thread
-        requirements = entry.get() + " "
+        requirements = entry.get() + f" At the end of the code, make it download like this: {download_as.get()}"
         thread = ThreadPoolExecutor().submit(worker)
         print("sent")
         thread.add_done_callback(lambda future: copied_message.place(
