@@ -4,6 +4,7 @@ from search import search
 import pyperclip
 import tkinter as tk
 from syntaxmod import general, wait_until
+from tkinter import ttk
 
 
 def main():
@@ -15,7 +16,9 @@ def main():
     entry = tk.Entry(root, bg="black", fg="white")
     entry.place(relx=0.5, rely=0.1, relwidth=0.8,
                 relheight=0.1, anchor="center")
-    requirements = ""
+    tk.Label(root, text="Download as:", justify="center").place(relx=0.4, rely=0.6)
+    download_as = ttk.Combobox(root, values=["stl", "blend", "no download"])
+    download_as.place(rely=0.7, relwidth=0.4, relx=0.5, anchor="center")
 
     def worker():
         global requirements
@@ -31,7 +34,7 @@ def main():
     def start_work():
         global requirements
         global thread
-        requirements = entry.get()
+        requirements = entry.get() + " "
         thread = ThreadPoolExecutor().submit(worker)
         print("sent")
         thread.add_done_callback(lambda future: copied_message.place(
