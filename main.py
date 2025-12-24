@@ -1,5 +1,6 @@
 from concurrent.futures.thread import ThreadPoolExecutor
 import os
+import platform
 import subprocess
 import tempfile
 import easier_openai
@@ -41,20 +42,40 @@ def main():
             with open(f"tempfileDownload{download_as.get()}.py", "w") as f:
                 f.write(final)
             print("c2")
+            script = f"./tempfileDownload{download_as.get()}.py"
             try:
-                subprocess.run(
-                    [BLENDER_EXE, "--background", "--python",
-                        f"./tempfileDownload{download_as.get()}.py", "--log-level", "2"],
-                    cwd=str("./"),
-                    check=True,
-                )
-                print("File downloaded to your downloads folder:")
+                system = platform.system()
+
+                if system == "Windows":
+                    subprocess.Popen(
+                        [
+                            "cmd.exe",
+                            "/c",
+                            f'"{BLENDER_EXE}" --python "{script}"'
+                        ],
+                        cwd=str("./"),
+                        creationflags=subprocess.CREATE_NEW_CONSOLE,
+                    )
+
+                elif system == "Darwin":  # macOS
+                    subprocess.Popen([
+                        "osascript",
+                        "-e",
+                        f'tell application "Terminal" to do script "{BLENDER_EXE} --python {script}; exit"'
+                    ])
+
+                elif system == "Linux":
+                    subprocess.Popen([
+                        "x-terminal-emulator",
+                        "-e",
+                        f'{BLENDER_EXE} --python {script}'
+                    ])
+
+                print("Blender launched in terminal")
 
 
-            except subprocess.CalledProcessError as e:
-                print("An error occurred while downloading file:", e)
-
-            os.remove(f"tempfileDownload{download_as.get()}")
+            except Exception as e:
+                print("Error launching Blender:", e)
         return final
 
     def start_work():
