@@ -41,7 +41,7 @@ A desktop helper that turns natural-language prompts into Blender Python scripts
 
 ## Preparing Blender HTML docs
 The search helper expects Blender documentation pages stored locally:
-1. Download the Blender manual as HTML ("Offline Manual") from the Blender docs site.
+1. Download the Blender manual as HTML ("Offline Manual") from the Blender docs site. [Download ZIP] (https://docs.blender.org/api/current/blender_python_reference_5_0.zip)
 2. Extract the archive and copy the HTML files into `html_files/` at the project root (keep filenames intact).
 3. The search cache is written to `.search_cache/index.joblib`; it is built automatically on first run.
 
