@@ -36,16 +36,23 @@ def main():
         pyperclip.copy(final)
         print(final)
         if download_as.get() != "no download":
-            with open(f"tempfileDownload{download_as.get()}", "w") as f:
+            print("c1")
+            BLENDER_EXE = r"C:\Program Files\Blender Foundation\Blender 5.0\blender.exe"
+            with open(f"tempfileDownload{download_as.get()}.py", "w") as f:
                 f.write(final)
-            command = ['blender', '--background', '--python', f"tempfileDownload{download_as.get()}"]
+            print("c2")
             try:
-                result = subprocess.run(command, check=True)
-                print("File downloaded to your downloads folder:", result)
+                subprocess.run(
+                    [BLENDER_EXE, "--background", "--python",
+                        f"./tempfileDownload{download_as.get()}.py", "--log-level", "2"],
+                    cwd=str("./"),
+                    check=True,
+                )
+                print("File downloaded to your downloads folder:")
 
 
             except subprocess.CalledProcessError as e:
-                print("An error occurred while download file:", e)
+                print("An error occurred while downloading file:", e)
 
             os.remove(f"tempfileDownload{download_as.get()}")
         return final
