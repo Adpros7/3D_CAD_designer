@@ -1,0 +1,6 @@
+easier-openai
+beautifulsoup4
+rapidfuzz
+scikit-learn
+joblib
+numpy
