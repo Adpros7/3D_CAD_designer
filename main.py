@@ -17,7 +17,8 @@ def main():
     entry.place(relx=0.5, rely=0.1, relwidth=0.8,
                 relheight=0.1, anchor="center")
     tk.Label(root, text="Download as:", justify="center").place(relx=0.4, rely=0.6)
-    download_as = ttk.Combobox(root, values=["stl", "blend", "no download"])
+    download_as = ttk.Combobox(root, values=["stl", "blend", "no download"], name="download as")
+    download_as.current(0)
     download_as.place(rely=0.7, relwidth=0.4, relx=0.5, anchor="center")
 
     def worker():
