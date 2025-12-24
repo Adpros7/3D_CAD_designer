@@ -8,7 +8,7 @@ from syntaxmod import general, wait_until
 
 def main():
     chatbot = easier_openai.Assistant(
-        model="gpt-5.1", system_prompt="Act as a specialized software engineer for Blender's Python API. Translate natural language requests into accurate Python code for Blender. Return error-free code, exactly matching the user's request.", summary_length="detailed", reasoning_effort="high")
+        model="gpt-5.1", system_prompt="Act as a specialized software engineer for Blender's Python API. Translate natural language requests into accurate Python code for Blender. Return error-free code, exactly matching the user's request.", reasoning_effort="high")
     root = tk.Tk()
     root.geometry("400x400")
     root.title("Blender Python Code Generator")
