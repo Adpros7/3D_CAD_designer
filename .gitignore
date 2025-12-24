@@ -13,3 +13,4 @@ blender_txt/*
 blender_docs/*
 */blender_txt/
 html_files/
+.search_cache/index.joblib
