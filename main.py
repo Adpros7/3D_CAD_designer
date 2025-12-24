@@ -1,5 +1,8 @@
+import easier_openai
+
 def main():
-    print("Hello from 3d-cad-designer!")
+    help = easier_openai.Assistant()
+    help.chat()
 
 
 if __name__ == "__main__":
