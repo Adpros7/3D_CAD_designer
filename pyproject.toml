@@ -5,4 +5,4 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = "==3.13.9"
 
-dependencies = ["easier-openai", "beautifulsoup4", "rapidfuzz", "scikit-learn", "joblib", "numpy"]
+dependencies = ["easier-openai", "beautifulsoup4", "scikit-learn", "joblib", "numpy", "pyperclip"]
