@@ -22,7 +22,7 @@ def main():
         print(final)
         return final
 
-    def get_text():
+    def start_work():
         global requirements
         global thread
         requirements = entry.get()
@@ -31,7 +31,7 @@ def main():
         thread.add_done_callback(lambda future: copied_message.place(relx=0.5, rely=0.3, relwidth=0.2, relheight=0.1, anchor="center"))
 
 
-    genButton = tk.Button(root, text="Generate Code", command=get_text , bg="black", fg="white")
+    genButton = tk.Button(root, text="Generate Code", command=start_work , bg="black", fg="white")
     genButton.place(relx=0.5, rely=0.2, relwidth=1, relheight=0.1, anchor="center")
     copied_message = tk.Label(root, text="Code Copied to Clipboard", bg="black", fg="white")
     root.mainloop()
