@@ -1,39 +1,55 @@
-# simple blue cube
+# green sphere
 
 import bpy
-from pathlib import Path
+import os
 
-# Create a cube at the origin
-bpy.ops.mesh.primitive_cube_add()
-cube = bpy.context.active_object
+# Optional: clear existing objects
+bpy.ops.object.select_all(action='SELECT')
+bpy.ops.object.delete()
 
-# Create a blue material
-material = bpy.data.materials.new(name="SimpleBlueMaterial")
-material.use_nodes = True
+# Create a UV sphere
+bpy.ops.mesh.primitive_uv_sphere_add(
+    radius=1.0,
+    enter_editmode=False,
+    align='WORLD',
+    location=(0.0, 0.0, 0.0),
+    scale=(1.0, 1.0, 1.0),
+)
+sphere = bpy.context.active_object
 
-bsdf = material.node_tree.nodes.get("Principled BSDF")
-if bsdf is not None:
-    bsdf.inputs["Base Color"].default_value = (0.0, 0.0, 1.0, 1.0)  # RGBA, pure blue
+# Create a green material using Principled BSDF
+mat = bpy.data.materials.new(name="GreenMaterial")
+mat.use_nodes = True
+nodes = mat.node_tree.nodes
+principled = nodes.get("Principled BSDF")
 
-# Assign the material to the cube
-if cube.data.materials:
-    cube.data.materials[0] = material
+if principled:
+    # RGBA: pure green
+    principled.inputs["Base Color"].default_value = (0.0, 1.0, 0.0, 1.0)
+
+# Assign the material to the sphere
+if sphere.data.materials:
+    sphere.data.materials[0] = mat
 else:
-    cube.data.materials.append(material)
+    sphere.data.materials.append(mat)
 
-# Prepare selection for STL export (only the cube)
+# Build Downloads directory path in a cross-platform way
+home_dir = os.path.expanduser("~")
+downloads_dir = os.path.join(home_dir, "Downloads")
+
+# Create Downloads directory if it doesn't exist
+os.makedirs(downloads_dir, exist_ok=True)
+
+# Full export path for the STL file
+export_path = os.path.join(downloads_dir, "green_sphere.stl")
+
+# Ensure only the sphere is selected for export
 bpy.ops.object.select_all(action='DESELECT')
-cube.select_set(True)
-bpy.context.view_layer.objects.active = cube
+sphere.select_set(True)
+bpy.context.view_layer.objects.active = sphere
 
-# Determine the path to the user's Downloads folder
-downloads_dir = Path.home() / "Downloads"
-downloads_dir.mkdir(parents=True, exist_ok=True)
-
-stl_filepath = downloads_dir / "simple_blue_cube.stl"
-
-# Export the selected cube as STL to the Downloads folder
-bpy.ops.export_mesh.stl(
-    filepath=str(stl_filepath),
+# Export the selected sphere as STL to the Downloads folder
+bpy.ops.export.stl(
+    filepath=export_path,
     use_selection=True
 )

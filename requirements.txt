@@ -5,3 +5,4 @@ joblib
 numpy
 pyperclip
 syntaxmod
+pyperclip
