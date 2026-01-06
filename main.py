@@ -4,7 +4,7 @@ import platform
 import subprocess
 import tempfile
 import easier_openai
-from search import search
+from index_and_search import search
 import pyperclip
 import tkinter as tk
 from syntaxmod import general, wait_until
@@ -30,8 +30,12 @@ def main():
     def worker():
         global requirements
         global final
-        files = ["html_files/" + f[0] for f in search(chatbot.chat(
-            f"write search queries for the blender docs that matches the following requirements: {requirements} RESPOND ONLY IN PYTHON LIST FORMAT LIKE THIS: ['Query1', 'Query2', 'Query3']"))]
+        files = []
+        queries = chatbot.chat(
+            f"write search queries for the blender docs that matches the following requirements: {requirements} RESPOND ONLY IN PYTHON LIST FORMAT LIKE THIS: ['Query1', 'Query2', 'Query3']")
+        for query in queries:
+            files.append(search(query)[0])
+            files.append(search(query)[1])
         final = str(chatbot.chat(f"Write code for these requirements: {requirements}", file_search=files, web_search=True)).removeprefix(
             "```python\n").removesuffix("\n```")
         pyperclip.copy(final)
