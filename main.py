@@ -35,8 +35,7 @@ def main():
         queries = ast.literal_eval(str(chatbot.chat(
             f"write search queries for the blender docs that matches the following requirements: {requirements} RESPOND ONLY IN PYTHON LIST FORMAT LIKE THIS: ['Query1', 'Query2', 'Query3']")))
         for query in queries:
-            files.append(search(query)[0])
-            files.append(search(query)[1])
+            files.extend(search(query)[:2])
         final = str(chatbot.chat(f"Write code for these requirements: {requirements}", file_search=files, web_search=True)).removeprefix(
             "```python\n").removesuffix("\n```")
         pyperclip.copy(final)
