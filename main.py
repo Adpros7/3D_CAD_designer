@@ -36,7 +36,7 @@ def main():
             f"write search queries for the blender docs that matches the following requirements: {requirements} RESPOND ONLY IN PYTHON LIST FORMAT LIKE THIS: ['Query1', 'Query2', 'Query3']")))
         for query in queries:
             files.extend(search(query)[:2])
-        final = str(chatbot.chat(f"Write code for these requirements: {requirements}", file_search=files, web_search=True)).removeprefix(
+        final = str(chatbot.chat(f"Write code for these requirements: {requirements}", file_search=files)).removeprefix(
             "```python\n").removesuffix("\n```")
         pyperclip.copy(final)
         print(final)
@@ -49,7 +49,8 @@ def main():
         global thread
         requirements = entry.get() + \
             f" At the end of the code, make it download like this to the downloads folder of whatever operating system they are on: {download_as.get()}. Add this as a comment to the start of the code: {entry.get()} DO NOT USE ANY DEPRECATED FUNCTIONS"
-        thread = ThreadPoolExecutor().submit(worker)
+        executor = ThreadPoolExecutor(max_workers=1)
+        thread = executor.submit(worker)
         print("sent")
         thread.add_done_callback(lambda future: copied_message.place(
             relx=0.5, rely=0.3, relwidth=1, relheight=0.1, anchor="center"))
