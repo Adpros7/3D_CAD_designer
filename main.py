@@ -1,3 +1,4 @@
+import ast
 from concurrent.futures.thread import ThreadPoolExecutor
 import os
 import platform
@@ -31,8 +32,8 @@ def main():
         global requirements
         global final
         files = []
-        queries = chatbot.chat(
-            f"write search queries for the blender docs that matches the following requirements: {requirements} RESPOND ONLY IN PYTHON LIST FORMAT LIKE THIS: ['Query1', 'Query2', 'Query3']")
+        queries = ast.literal_eval(str(chatbot.chat(
+            f"write search queries for the blender docs that matches the following requirements: {requirements} RESPOND ONLY IN PYTHON LIST FORMAT LIKE THIS: ['Query1', 'Query2', 'Query3']")))
         for query in queries:
             files.append(search(query)[0])
             files.append(search(query)[1])

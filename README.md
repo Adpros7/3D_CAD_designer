@@ -76,4 +76,4 @@ This reads `html_files/` and stores the cache under `.search_cache/`. Subsequent
 
 ## Notes
 
-README create by codex AI.
+README created by codex AI.
