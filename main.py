@@ -37,9 +37,8 @@ def main():
         executor = ThreadPoolExecutor(max_workers=1)
         thread = executor.submit(worker)
         print("sent")
-        thread.add_done_callback(lambda future: copied_message.place(
-            relx=0.5, rely=0.3, relwidth=1, relheight=0.1, anchor="center"))
 
+    start_work()
 
 if __name__ == "__main__":
     main()
