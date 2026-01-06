@@ -15,7 +15,9 @@ def main():
 
     def worker():
         global requirements
-        global final
+        print("Generating code...")
+        requirements = entry + \
+            f" At the end of the code, make it download like this to the downloads folder of whatever operating system they are on: {download_as}. Add this as a comment to the start of the code: \"requirements\": {entry} DO NOT USE ANY DEPRECATED FUNCTIONS"
         files = []
         queries = ast.literal_eval(str(chatbot.chat(
             f"write search queries for the blender docs that matches the following requirements: {requirements} RESPOND ONLY IN PYTHON LIST FORMAT LIKE THIS: ['Query1', 'Query2', 'Query3']")))
@@ -29,16 +31,7 @@ def main():
             pass
         return final
 
-    def start_work():
-        global requirements
-        global thread
-        requirements = entry + \
-            f" At the end of the code, make it download like this to the downloads folder of whatever operating system they are on: {download_as}. Add this as a comment to the start of the code: \"requirements\": {entry} DO NOT USE ANY DEPRECATED FUNCTIONS"
-        executor = ThreadPoolExecutor(max_workers=1)
-        thread = executor.submit(worker)
-        print("sent")
-
-    start_work()
+    worker()
 
 if __name__ == "__main__":
     main()
