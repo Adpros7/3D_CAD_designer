@@ -14,5 +14,5 @@ blender_docs/*
 blender_docs_og/*
 */blender_txt/
 html_files/
-.search_cache/index.joblib
+.search_cache/
 md_files/*
