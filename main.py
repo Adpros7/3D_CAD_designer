@@ -1,14 +1,9 @@
 import ast
 from concurrent.futures.thread import ThreadPoolExecutor
-import os
-import platform
-import subprocess
-import tempfile
 import easier_openai
 from index_and_search import search
 import pyperclip
 import tkinter as tk
-from syntaxmod import general, wait_until
 from tkinter import ttk
 
 
@@ -18,11 +13,7 @@ def main():
     root = tk.Tk()
     root.geometry("400x400")
     root.title("Blender Python Code Generator")
-    entry = tk.Entry(root, bg="black", fg="white")
-    entry.place(relx=0.5, rely=0.1, relwidth=0.8,
-                relheight=0.1, anchor="center")
-    tk.Label(root, text="Download as:",
-             justify="center").place(relx=0.4, rely=0.6)
+    entry = input("Enter Your requirements:")
     download_as = ttk.Combobox(
         root, values=["stl", "blend", "no download"], name="download as")
     download_as.current(0)
