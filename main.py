@@ -41,45 +41,7 @@ def main():
         pyperclip.copy(final)
         print(final)
         if download_as.get() != "no download":
-            print("c1")
-            BLENDER_EXE = r"C:\Program Files\Blender Foundation\Blender 5.0\blender.exe"
-            with open(f"tempfileDownload{download_as.get()}.py", "w") as f:
-                f.write(final)
-            print("c2")
-            script = f"./tempfileDownload{download_as.get()}.py"
-            try:
-                system = platform.system()
-
-                if system == "Windows":
-                    subprocess.Popen(
-                        [
-                            "cmd.exe",
-                            "/c",
-                            f'"{BLENDER_EXE}" --python "{script}"'
-                        ],
-                        cwd=str("./"),
-                        creationflags=subprocess.CREATE_NEW_CONSOLE,
-                    )
-
-                elif system == "Darwin":  # macOS
-                    subprocess.Popen([
-                        "osascript",
-                        "-e",
-                        f'tell application "Terminal" to do script "{BLENDER_EXE} --python {script}; exit"'
-                    ])
-
-                elif system == "Linux":
-                    subprocess.Popen([
-                        "x-terminal-emulator",
-                        "-e",
-                        f'{BLENDER_EXE} --python {script}'
-                    ])
-
-                print("Blender launched in terminal")
-
-
-            except Exception as e:
-                print("Error launching Blender:", e)
+            pass
         return final
 
     def start_work():
