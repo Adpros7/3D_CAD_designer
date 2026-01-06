@@ -17,10 +17,10 @@ def main():
         global requirements
         print("Generating code...")
         requirements = entry + \
-            f" At the end of the code, make it download like this to the downloads folder of whatever operating system they are on: {download_as}. Add this as a comment to the start of the code: \"requirements\": {entry} DO NOT USE ANY DEPRECATED FUNCTIONS"
+            f" At the end of the code, make it download like this to the downloads folder of whatever operating system they are on: {download_as}. Add this as a comment to the start of the code: requirements: {entry}. DO NOT USE ANY DEPRECATED FUNCTIONS"
         files = []
         queries = ast.literal_eval(str(chatbot.chat(
-            f"Create search queries tailored for the Blender documentation that satisfy the provided requirements: {requirements}. \
+            f"Create search queries tailored for the Blender 5.0 documentation that satisfy the provided requirements: {requirements}. \
                 Your response must be in the following Python list format: ['Query1', 'Query2', 'Query3']. \
                 Since the queries are intended for the Python API documentation, do not include the terms 'blender', 'python', or 'api' in your queries. \
                 Aim to keep each query to a maximum of two words; four words is the absolute maximum allowed. Note: identifiers such as 'bpy.ops.export_mesh.stl' should be considered as a single word. \
@@ -29,7 +29,8 @@ def main():
             print(query)
             print(search(query))
             files.extend(search(query)[:2])
-        final = str(chatbot.chat(f"Write code for these requirements: {requirements}", file_search=files)).removeprefix(
+        print("Generating final code.. This may take a while... \n")
+        final = str(chatbot.chat(f"Write code for these requirements. Read documentation, foud in the file search tool, and generate accurate code based on them. make sure it works at all costs, exactly matching the user's requirements: {requirements}", file_search=files)).removeprefix(
             "```python\n").removesuffix("\n```")
         pyperclip.copy(final)
         print(final)
