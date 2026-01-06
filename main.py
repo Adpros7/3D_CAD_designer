@@ -10,7 +10,7 @@ from tkinter import ttk
 def main():
     chatbot = easier_openai.Assistant(
         model="gpt-5.1", system_prompt="Act as a specialized software engineer for Blender's Python API. Translate natural language requests into accurate Python code for Blender. Return error-free code, exactly matching the user's request.", reasoning_effort="high")
-    entry = input("Enter Your requirements:")
+    entry = input("Enter Your requirements: ")
     download_as = input("Download as (stl, blend, no download): ")
 
     def worker():
@@ -22,6 +22,7 @@ def main():
         queries = ast.literal_eval(str(chatbot.chat(
             f"write search queries for the blender docs that matches the following requirements: {requirements} RESPOND ONLY IN PYTHON LIST FORMAT LIKE THIS: ['Query1', 'Query2', 'Query3']")))
         for query in queries:
+            print(search(query))
             files.extend(search(query)[:2])
         final = str(chatbot.chat(f"Write code for these requirements: {requirements}", file_search=files)).removeprefix(
             "```python\n").removesuffix("\n```")
