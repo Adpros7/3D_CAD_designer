@@ -20,8 +20,13 @@ def main():
             f" At the end of the code, make it download like this to the downloads folder of whatever operating system they are on: {download_as}. Add this as a comment to the start of the code: \"requirements\": {entry} DO NOT USE ANY DEPRECATED FUNCTIONS"
         files = []
         queries = ast.literal_eval(str(chatbot.chat(
-            f"write search queries for the blender docs that matches the following requirements: {requirements} RESPOND ONLY IN PYTHON LIST FORMAT LIKE THIS: ['Query1', 'Query2', 'Query3']")))
+            f"Create search queries tailored for the Blender documentation that satisfy the provided requirements: {requirements}. \
+                Your response must be in the following Python list format: ['Query1', 'Query2', 'Query3']. \
+                Since the queries are intended for the Python API documentation, do not include the terms 'blender', 'python', or 'api' in your queries. \
+                Aim to keep each query to a maximum of two words; four words is the absolute maximum allowed. Note: identifiers such as 'bpy.ops.export_mesh.stl' should be considered as a single word. \
+                Output Verbosity: Return how many ever queries you need to satisfy the requirements, each query being formatted in the required list format. Each query should be a succinct phrase (≤4 words, ≤1 line each). Do not add any explanations or extra content. Prioritize complete, actionable queries within this length cap. \"Armature\" is a valid and good query.", file_search=files)))
         for query in queries:
+            print(query)
             print(search(query))
             files.extend(search(query)[:2])
         final = str(chatbot.chat(f"Write code for these requirements: {requirements}", file_search=files)).removeprefix(
