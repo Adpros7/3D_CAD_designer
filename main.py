@@ -10,14 +10,8 @@ from tkinter import ttk
 def main():
     chatbot = easier_openai.Assistant(
         model="gpt-5.1", system_prompt="Act as a specialized software engineer for Blender's Python API. Translate natural language requests into accurate Python code for Blender. Return error-free code, exactly matching the user's request.", reasoning_effort="high")
-    root = tk.Tk()
-    root.geometry("400x400")
-    root.title("Blender Python Code Generator")
     entry = input("Enter Your requirements:")
-    download_as = ttk.Combobox(
-        root, values=["stl", "blend", "no download"], name="download as")
-    download_as.current(0)
-    download_as.place(rely=0.7, relwidth=0.4, relx=0.5, anchor="center")
+    download_as = input("Download as (stl, blend, no download): ")
 
     def worker():
         global requirements
@@ -31,14 +25,14 @@ def main():
             "```python\n").removesuffix("\n```")
         pyperclip.copy(final)
         print(final)
-        if download_as.get() != "no download":
+        if not "no" in download_as:
             pass
         return final
 
     def start_work():
         global requirements
         global thread
-        requirements = entry.get() + \
+        requirements = entry + \
             f" At the end of the code, make it download like this to the downloads folder of whatever operating system they are on: {download_as.get()}. Add this as a comment to the start of the code: {entry.get()} DO NOT USE ANY DEPRECATED FUNCTIONS"
         executor = ThreadPoolExecutor(max_workers=1)
         thread = executor.submit(worker)
