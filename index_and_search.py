@@ -24,7 +24,10 @@ def search(query):
         query = QueryParser("content", ix.schema).parse(query)
         results = searcher.search(query)
         parsed_results = [result["path"] for result in results]
-        return [parsed_results[0] if len(parsed_results) > 0 else None, parsed_results[1] if len(parsed_results) > 1 else None, parsed_results[2] if len(parsed_results) > 2 else None]
+        final = [parsed_results[0] if len(parsed_results) > 0 else None, parsed_results[1] if len(
+            parsed_results) > 1 else None, parsed_results[2] if len(parsed_results) > 2 else None]
+        final = list(filter(None, final))
+        return final
 
 def main():
     indexer()
