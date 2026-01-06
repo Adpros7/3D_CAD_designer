@@ -33,20 +33,12 @@ def main():
         global requirements
         global thread
         requirements = entry + \
-            f" At the end of the code, make it download like this to the downloads folder of whatever operating system they are on: {download_as.get()}. Add this as a comment to the start of the code: {entry.get()} DO NOT USE ANY DEPRECATED FUNCTIONS"
+            f" At the end of the code, make it download like this to the downloads folder of whatever operating system they are on: {download_as}. Add this as a comment to the start of the code: \"requirements\": {entry} DO NOT USE ANY DEPRECATED FUNCTIONS"
         executor = ThreadPoolExecutor(max_workers=1)
         thread = executor.submit(worker)
         print("sent")
         thread.add_done_callback(lambda future: copied_message.place(
             relx=0.5, rely=0.3, relwidth=1, relheight=0.1, anchor="center"))
-
-    genButton = tk.Button(root, text="Generate Code",
-                          command=start_work, bg="black", fg="white")
-    genButton.place(relx=0.5, rely=0.2, relwidth=0.5,
-                    relheight=0.1, anchor="center")
-    copied_message = tk.Label(
-        root, text="Code Copied to Clipboard", bg="black", fg="white")
-    root.mainloop()
 
 
 if __name__ == "__main__":
