@@ -24,7 +24,7 @@ def main():
                 Your response must be in the following Python list format: ['Query1', 'Query2', 'Query3']. \
                 Since the queries are intended for the Python API documentation, do not include the terms 'blender', 'python', or 'api' in your queries. \
                 Aim to keep each query to a maximum of two words; four words is the absolute maximum allowed. Note: identifiers such as 'bpy.ops.export_mesh.stl' should be considered as a single word. \
-                Output Verbosity: Return how many ever queries you need to satisfy the requirements, each query being formatted in the required list format. Each query should be a succinct phrase (≤4 words, ≤1 line each). Do not add any explanations or extra content. Prioritize complete, actionable queries within this length cap. \"Armature\" is a valid and good query.", file_search=files)))
+                Output Verbosity: Return how many ever queries you need to satisfy the requirements, each query being formatted in the required list format. Each query should be a succinct phrase (≤4 words, ≤1 line each). Do not add any explanations or extra content. Prioritize complete, actionable queries within this length cap. \"Armature\" is a valid and good query. Try not to search for actual functions, but rather what the functions that you want actually do. For example bpy.ops.export_mesh.stl does not actually download anything, as it is invaliud syntx. Try searching for download stl instead.", file_search=files)))
         for query in queries:
             print(query)
             print(search(query))
@@ -32,6 +32,8 @@ def main():
         print("Generating final code.. This may take a while... \n")
         final = str(chatbot.chat(f"Write code for these requirements. Read documentation, foud in the file search tool, and generate accurate code based on them. make sure it works at all costs, exactly matching the user's requirements: {requirements}", file_search=files)).removeprefix(
             "```python\n").removesuffix("\n```")
+        if not final.startswith("#"):
+            final = "# " + final
         pyperclip.copy(final)
         print(final)
         if not "no" in download_as:
