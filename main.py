@@ -38,12 +38,13 @@ def main():
             final = "# " + final
         pyperclip.copy(final)
         print(final)
+        BLENDER_EXE = "C:/Program Files/Blender Foundation/Blender 5.0/blender.exe"
         if not "no" in download_as:
             d_path = Path.home() / "Downloads"
             with open(f"{download_as}.py", "w", encoding="utf-8") as f:
                 f.write(final)
-                subprocess.run(executable="blender", args=[
-                               "--background", "--factory-startup", f"--python {download_as}.py" f"--save={d_path }"], shell=True)
+                subprocess.run(executable=BLENDER_EXE, args=[
+                               "--background", "--factory-startup", f"--python {download_as}.py", f"--save={d_path }"])
         return final
 
     worker()
