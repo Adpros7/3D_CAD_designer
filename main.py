@@ -29,14 +29,16 @@ def main():
             print(search(query))
             files.extend(search(query)[:2])
         print("Generating final code.. This may take a while... \n")
-        final_stream = chatbot.chat(f"Write code for these requirements. Read documentation, found in the file search tool, and generate accurate code based on them. make sure it works at all costs, exactly matching the user's requirements: {requirements} Use the web search tool to if the user asks for a real life object and does not give further info to seek out dimensions and exact properties. ALWAYs ADD COLOR AND MAKE REALISTIC UNLESS OTHERWISE SPECIFIED BY THE REQUIREMENTS", file_search=files, text_stream=True, web_search=True)
+        final_stream = chatbot.chat(
+            f"Write code for these requirements. Read documentation, found in the file search tool, and generate accurate code based on them. make sure it works at all costs, exactly matching the user's requirements: {requirements} Use the web search tool to if the user asks for a real life object and does not give further info to seek out dimensions and exact properties. ALWAYs ADD COLOR AND MAKE REALISTIC UNLESS OTHERWISE SPECIFIED BY THE REQUIREMENTS", file_search=files, text_stream=True, web_search=True)
         final = ""
         for chunk in final_stream:
             if chunk == "done":
                 break
             final += str(chunk)
             print(chunk, end="")
-        final = final.removeprefix("```python\n").removesuffix("\n```").replace("```python", "", 0)
+        final = final.removeprefix("```python\n").removesuffix(
+            "\n```").replace("```python", "", 0)
         if not final.startswith("#"):
             final = "# " + final
         pyperclip.copy(final)
@@ -51,6 +53,7 @@ def main():
         return final
 
     worker()
+
 
 if __name__ == "__main__":
     main()
