@@ -35,6 +35,7 @@ def main():
             if chunk == "done":
                 break
             final += str(chunk)
+            print(chunk, end="")
         final = final.removeprefix("```python\n").removesuffix("\n```").replace("```python", "", 0)
         if not final.startswith("#"):
             final = "# " + final
