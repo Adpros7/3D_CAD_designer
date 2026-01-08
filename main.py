@@ -1,5 +1,7 @@
 import ast
 from concurrent.futures.thread import ThreadPoolExecutor
+from pathlib import Path
+import subprocess
 import easier_openai
 from index_and_search import search
 import pyperclip
@@ -37,7 +39,11 @@ def main():
         pyperclip.copy(final)
         print(final)
         if not "no" in download_as:
-            pass
+            d_path = Path.home() / "Downloads"
+            with open(f"{download_as}.py", "w", encoding="utf-8") as f:
+                f.write(final)
+                subprocess.run(executable="blender", args=[
+                               "--background", "--factory-startup", f"--python {download_as}.py" f"--save={d_path }"], shell=True)
         return final
 
     worker()
