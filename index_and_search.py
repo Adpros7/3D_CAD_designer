@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from typing import Any
 from unittest import result
 from whoosh.qparser import QueryParser
@@ -30,7 +31,12 @@ def search(query):
         return final
 
 def main():
-    indexer()
+    iors = input("Index or Search (you can type i or s)")
+    if iors == "index":
+        indexer()
+    elif iors == "search":
+        query = input("Enter your query: ")
+        print(search(query))
 
 if __name__ == "__main__":
     main()
