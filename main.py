@@ -5,8 +5,6 @@ import subprocess
 import easier_openai
 from index_and_search import search
 import pyperclip
-import tkinter as tk
-from tkinter import ttk
 
 
 def main():
