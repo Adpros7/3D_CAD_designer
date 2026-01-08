@@ -32,8 +32,13 @@ def main():
             print(search(query))
             files.extend(search(query)[:2])
         print("Generating final code.. This may take a while... \n")
-        final = str(chatbot.chat(f"Write code for these requirements. Read documentation, foud in the file search tool, and generate accurate code based on them. make sure it works at all costs, exactly matching the user's requirements: {requirements}", file_search=files)).removeprefix(
-            "```python\n").removesuffix("\n```")
+        final_stream = chatbot.chat(f"Write code for these requirements. Read documentation, foud in the file search tool, and generate accurate code based on them. make sure it works at all costs, exactly matching the user's requirements: {requirements}", file_search=files, text_stream=True)
+        final = ""
+        for chunk in final_stream:
+            if chunk == "done":
+                break
+            final += str(chunk)
+        final = final.removeprefix("```python\n").removesuffix("\n```")
         if not final.startswith("#"):
             final = "# " + final
         pyperclip.copy(final)
@@ -44,7 +49,7 @@ def main():
             with open(f"{download_as}.py", "w", encoding="utf-8") as f:
                 f.write(final)
                 subprocess.run(executable=BLENDER_EXE, args=[
-                               "--background", "--factory-startup", f"--python {download_as}.py", f"--save={d_path }"])
+                               "--background", "--factory-startup", f"{download_as}.py"], cwd=d_path)
         return final
 
     worker()

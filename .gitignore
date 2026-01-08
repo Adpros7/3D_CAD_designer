@@ -17,3 +17,4 @@ html_files/
 .search_cache/
 md_files/*
 test.md
+stl.py
