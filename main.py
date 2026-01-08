@@ -38,7 +38,7 @@ def main():
             if chunk == "done":
                 break
             final += str(chunk)
-        final = final.removeprefix("```python\n").removesuffix("\n```")
+        final = final.removeprefix("```python\n").removesuffix("\n```").replace("```python", "", 0)
         if not final.startswith("#"):
             final = "# " + final
         pyperclip.copy(final)
