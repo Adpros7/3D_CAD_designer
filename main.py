@@ -29,7 +29,7 @@ def main():
             print(search(query))
             files.extend(search(query)[:2])
         print("Generating final code.. This may take a while... \n")
-        final_stream = chatbot.chat(f"Write code for these requirements. Read documentation, foud in the file search tool, and generate accurate code based on them. make sure it works at all costs, exactly matching the user's requirements: {requirements}", file_search=files, text_stream=True)
+        final_stream = chatbot.chat(f"Write code for these requirements. Read documentation, foud in the file search tool, and generate accurate code based on them. make sure it works at all costs, exactly matching the user's requirements: {requirements}", file_search=files, text_stream=True, web_search=True)
         final = ""
         for chunk in final_stream:
             if chunk == "done":
@@ -43,10 +43,10 @@ def main():
         BLENDER_EXE = "C:/Program Files/Blender Foundation/Blender 5.0/blender.exe"
         if not "no" in download_as:
             d_path = Path.home() / "Downloads"
-            with open(f"{download_as}.py", "w", encoding="utf-8") as f:
+            with open(f"d_path/{download_as}.py", "w", encoding="utf-8") as f:
                 f.write(final)
-                subprocess.run(executable=BLENDER_EXE, args=[
-                               "--background", "--factory-startup", f"{download_as}.py"], cwd=d_path)
+            subprocess.run(executable=BLENDER_EXE, args=[
+                "--background", "--factory-startup", f"{download_as}.py"], cwd=d_path)
         return final
 
     worker()
