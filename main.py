@@ -1,5 +1,4 @@
 import ast
-from concurrent.futures.thread import ThreadPoolExecutor
 from pathlib import Path
 import subprocess
 import easier_openai
