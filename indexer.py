@@ -17,4 +17,4 @@ for file in files:
     with open(f"C:/Users/prani/Coding/AI/3D_CAD_designer/html_files/{file}", "w", encoding="utf-8") as fll:
         fll.write(fu.replace("¶", "", -1))
     with open(f"blender_docs/{file.removesuffix('.html')}.md", "w", encoding="utf-8") as f:
-        f.write(extract_text_from_html(fu).text) # type: ignore
+        f.write(extract_text_from_html(fu).text.replace("¶", "", -1)) # type: ignore
