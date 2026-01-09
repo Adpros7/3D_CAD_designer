@@ -36,9 +36,9 @@ def main():
             break
         final += str(chunk)
         print(chunk, end="")
+    final = final[final.find("#"):]
     final = final.removeprefix("```python\n").removesuffix(
         "\n```").replace("```python", "", 1)
-    final = final[final.find("#"):]
     pyperclip.copy(final)
     print(final)
     BLENDER_EXE = "C:/Program Files/Blender Foundation/Blender 5.0/blender.exe"
