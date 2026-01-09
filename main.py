@@ -37,6 +37,7 @@ def main():
         final += str(chunk)
         print(chunk, end="")
     final = final[final.find("#"):]
+    final = final[final.find("#"):]
     final = final.removeprefix("```python\n").removesuffix(
         "\n```").replace("```python", "", 1)
     pyperclip.copy(final)
