@@ -1,0 +1,594 @@
+
+          
+Audio System (aud)
+Audaspace (pronounced “outer space”) is a high level audio library.
+Basic Sound Playback
+This script shows how to use the classes: Device, Sound and
+Handle.
+import aud
+device = aud.Device()
+# Load sound file (it can be a video file with audio).
+sound = aud.Sound(&#39;music.ogg&#39;)
+# Play the audio, this return a handle to control play/pause.
+handle = device.play(sound)
+# If the audio is not too big and will be used often you can buffer it.
+sound_buffered = aud.Sound.cache(sound)
+handle_buffered = device.play(sound_buffered)
+# Stop the sounds (otherwise they play until their ends).
+handle.stop()
+handle_buffered.stop()
+
+
+aud.AP_LOCATION
+Constant value 3
+
+
+aud.AP_ORIENTATION
+Constant value 4
+
+
+aud.AP_PANNING
+Constant value 1
+
+
+aud.AP_PITCH
+Constant value 2
+
+
+aud.AP_PITCH_SCALE
+Constant value 6
+
+
+aud.AP_TIME_STRETCH
+Constant value 5
+
+
+aud.AP_VOLUME
+Constant value 0
+
+
+aud.CHANNELS_INVALID
+Constant value 0
+
+
+aud.CHANNELS_MONO
+Constant value 1
+
+
+aud.CHANNELS_STEREO
+Constant value 2
+
+
+aud.CHANNELS_STEREO_LFE
+Constant value 3
+
+
+aud.CHANNELS_SURROUND4
+Constant value 4
+
+
+aud.CHANNELS_SURROUND5
+Constant value 5
+
+
+aud.CHANNELS_SURROUND51
+Constant value 6
+
+
+aud.CHANNELS_SURROUND61
+Constant value 7
+
+
+aud.CHANNELS_SURROUND71
+Constant value 8
+
+
+aud.CODEC_AAC
+Constant value 1
+
+
+aud.CODEC_AC3
+Constant value 2
+
+
+aud.CODEC_FLAC
+Constant value 3
+
+
+aud.CODEC_INVALID
+Constant value 0
+
+
+aud.CODEC_MP2
+Constant value 4
+
+
+aud.CODEC_MP3
+Constant value 5
+
+
+aud.CODEC_OPUS
+Constant value 8
+
+
+aud.CODEC_PCM
+Constant value 6
+
+
+aud.CODEC_VORBIS
+Constant value 7
+
+
+aud.CONTAINER_AAC
+Constant value 8
+
+
+aud.CONTAINER_AC3
+Constant value 1
+
+
+aud.CONTAINER_FLAC
+Constant value 2
+
+
+aud.CONTAINER_INVALID
+Constant value 0
+
+
+aud.CONTAINER_MATROSKA
+Constant value 3
+
+
+aud.CONTAINER_MP2
+Constant value 4
+
+
+aud.CONTAINER_MP3
+Constant value 5
+
+
+aud.CONTAINER_OGG
+Constant value 6
+
+
+aud.CONTAINER_WAV
+Constant value 7
+
+
+aud.DISTANCE_MODEL_EXPONENT
+Constant value 5
+
+
+aud.DISTANCE_MODEL_EXPONENT_CLAMPED
+Constant value 6
+
+
+aud.DISTANCE_MODEL_INVALID
+Constant value 0
+
+
+aud.DISTANCE_MODEL_INVERSE
+Constant value 1
+
+
+aud.DISTANCE_MODEL_INVERSE_CLAMPED
+Constant value 2
+
+
+aud.DISTANCE_MODEL_LINEAR
+Constant value 3
+
+
+aud.DISTANCE_MODEL_LINEAR_CLAMPED
+Constant value 4
+
+
+aud.FORMAT_FLOAT32
+Constant value 36
+
+
+aud.FORMAT_FLOAT64
+Constant value 40
+
+
+aud.FORMAT_INVALID
+Constant value 0
+
+
+aud.FORMAT_S16
+Constant value 18
+
+
+aud.FORMAT_S24
+Constant value 19
+
+
+aud.FORMAT_S32
+Constant value 20
+
+
+aud.FORMAT_U8
+Constant value 1
+
+
+aud.RATE_11025
+Constant value 11025
+
+
+aud.RATE_16000
+Constant value 16000
+
+
+aud.RATE_192000
+Constant value 192000
+
+
+aud.RATE_22050
+Constant value 22050
+
+
+aud.RATE_32000
+Constant value 32000
+
+
+aud.RATE_44100
+Constant value 44100
+
+
+aud.RATE_48000
+Constant value 48000
+
+
+aud.RATE_8000
+Constant value 8000
+
+
+aud.RATE_88200
+Constant value 88200
+
+
+aud.RATE_96000
+Constant value 96000
+
+
+aud.RATE_INVALID
+Constant value 0
+
+
+aud.STATUS_INVALID
+Constant value 0
+
+
+aud.STATUS_PAUSED
+Constant value 2
+
+
+aud.STATUS_PLAYING
+Constant value 1
+
+
+aud.STATUS_STOPPED
+Constant value 3
+
+
+aud.STRETCHER_QUALITY_CONSISTENT
+Constant value 2
+
+
+aud.STRETCHER_QUALITY_FAST
+Constant value 1
+
+
+aud.STRETCHER_QUALITY_HIGH
+Constant value 0
+
+
+class aud.AnimateableProperty
+An AnimateableProperty object stores an array of float values for animating sound properties (e.g. pan, volume, pitch-scale)
+
+read(position)
+Reads the properties value at the given position.
+Parameters:
+position (float) – The position in the animation in frames.
+Returns:
+A numpy array of values representing the properties value.
+Return type:
+numpy.ndarray
+
+
+
+readSingle(position)
+Reads the properties value at the given position, assuming there is exactly one value.
+Parameters:
+position (float) – The position in the animation in frames.
+Returns:
+The value at that position.
+Return type:
+float
+
+
+
+write(data[, position])
+Writes the properties value.
+If position is also given, the property is marked animated and
+the values are written starting at position.
+Parameters:
+data (numpy.ndarray) – numpy array of float32 values.
+position (int) – The starting position in frames.
+
+
+
+writeConstantRange(data, position_start, position_end)
+Fills the properties frame range with a constant value and marks it animated.
+Parameters:
+data (numpy.ndarray) – numpy array of float values representing the constant value.
+position_start (int) – The start position in frames.
+position_end (int) – The end position in frames.
+
+
+
+animated
+Whether the property is animated.
+
+
+count
+The count of floats for a property.
+
+
+
+class aud.Device
+Device objects represent an audio output backend like OpenAL or SDL, but might also represent a file output or RAM buffer output.
+
+lock()
+Locks the device so that it’s guaranteed, that no samples are
+read from the streams until unlock() is called.
+This is useful if you want to do start/stop/pause/resume some
+sounds at the same time.
+Note
+The device has to be unlocked as often as locked to be
+able to continue playback.
+
+Warning
+Make sure the time between locking and unlocking is
+as short as possible to avoid clicks.
+
+
+play(sound, keep=False)
+Plays a sound.
+Parameters:
+sound (Sound) – The sound to play.
+keep (bool) – See Handle.keep.
+
+Returns:
+The playback handle with which playback can be
+controlled with.
+Return type:
+Handle
+
+
+
+stopAll()
+Stops all playing and paused sounds.
+
+
+unlock()
+Unlocks the device after a lock call, see lock() for
+details.
+
+
+channels
+The channel count of the device.
+
+
+distance_model
+The distance model of the device.
+See also
+OpenAL Documentation
+
+
+doppler_factor
+The doppler factor of the device.
+This factor is a scaling factor for the velocity vectors in doppler calculation. So a value bigger than 1 will exaggerate the effect as it raises the velocity.
+
+
+format
+The native sample format of the device.
+
+
+listener_location
+The listeners’s location in 3D space, a 3D tuple of floats.
+
+
+listener_orientation
+The listener’s orientation in 3D space as quaternion, a 4 float tuple.
+
+
+listener_velocity
+The listener’s velocity in 3D space, a 3D tuple of floats.
+
+
+rate
+The sampling rate of the device in Hz.
+
+
+speed_of_sound
+The speed of sound of the device.
+The speed of sound in air is typically 343.3 m/s.
+
+
+volume
+The overall volume of the device.
+
+
+
+class aud.DynamicMusic
+The DynamicMusic object allows to play music depending on a current scene, scene changes are managed by the class, with the possibility of custom transitions.
+The default transition is a crossfade effect, and the default scene is silent and has id 0
+
+addScene(scene)
+Adds a new scene.
+Parameters:
+scene (Sound) – The scene sound.
+Returns:
+The new scene id.
+Return type:
+int
+
+
+
+addTransition(ini, end, transition)
+Adds a new scene.
+Parameters:
+ini (int) – the initial scene foor the transition.
+end (int) – The final scene for the transition.
+transition (Sound) – The transition sound.
+
+Returns:
+false if the ini or end scenes don’t exist, true otherwise.
+Return type:
+bool
+
+
+
+pause()
+Pauses playback of the scene.
+Returns:
+Whether the action succeeded.
+Return type:
+bool
+
+
+
+resume()
+Resumes playback of the scene.
+Returns:
+Whether the action succeeded.
+Return type:
+bool
+
+
+
+stop()
+Stops playback of the scene.
+Returns:
+Whether the action succeeded.
+Return type:
+bool
+
+
+
+fadeTime
+The length in seconds of the crossfade transition
+
+
+position
+The playback position of the scene in seconds.
+
+
+scene
+The current scene
+
+
+status
+Whether the scene is playing, paused or stopped (=invalid).
+
+
+volume
+The volume of the scene.
+
+
+
+class aud.HRTF
+An HRTF object represents a set of head related transfer functions as impulse responses. It’s used for binaural sound
+
+loadLeftHrtfSet(extension, directory)
+Loads all HRTFs from a directory.
+Parameters:
+extension (string) – The file extension of the hrtfs.
+directory – The path to where the HRTF files are located.
+
+Returns:
+The loaded HRTF object.
+Return type:
+HRTF
+
+
+
+loadRightHrtfSet(extension, directory)
+Loads all HRTFs from a directory.
+Parameters:
+extension (string) – The file extension of the hrtfs.
+directory – The path to where the HRTF files are located.
+
+Returns:
+The loaded HRTF object.
+Return type:
+HRTF
+
+
+
+addImpulseResponseFromSound(sound, azimuth, elevation)
+Adds a new hrtf to the HRTF object
+Parameters:
+sound (Sound) – The sound that contains the hrtf.
+azimuth (float) – The azimuth angle of the hrtf.
+elevation (float) – The elevation angle of the hrtf.
+
+Returns:
+Whether the action succeeded.
+Return type:
+bool
+
+
+
+
+class aud.Handle
+Handle objects are playback handles that can be used to control playback of a sound. If a sound is played back multiple times then there are as many handles.
+
+pause()
+Pauses playback.
+Returns:
+Whether the action succeeded.
+Return type:
+bool
+
+
+
+resume()
+Resumes playback.
+Returns:
+Whether the action succeeded.
+Return type:
+bool
+
+
+
+stop()
+Stops playback.
+Returns:
+Whether the action succeeded.
+Return type:
+bool
+
+Note
+This makes the handle invalid.
+
+
+attenuation
+This factor is used for distance based attenuation of the source.
+See also
+Device.distance_model
+
+
+cone_angle_inner
+The opening angle of the inner cone of the source. If the cone values of a source are set there are two (audible) cones with the apex at the location of the source and with infinite height, heading in the direction of the source’s orientation.
+In the inner cone the volume is normal. Outside the outer cone the volume will be cone_volume_outer and in the area between the volume will be interpolated linearly.
+
+
+cone_angle_outer
+The opening angle of the outer cone of the source.
+See also
+cone_angle_inner
+
+
+cone_volume_outer
