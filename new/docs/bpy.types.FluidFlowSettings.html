@@ -1,0 +1,288 @@
+
+          
+FluidFlowSettings(bpy_struct)
+base class — bpy_struct
+
+class bpy.types.FluidFlowSettings(bpy_struct)
+Fluid flow settings
+
+density
+(in [0, 10], default 1.0)
+Type:
+float
+
+
+
+density_vertex_group
+Name of vertex group which determines surface emission rate (default “”, never None)
+Type:
+str
+
+
+
+flow_behavior
+Change flow behavior in the simulation (default 'GEOMETRY')
+INFLOW
+Inflow – Add fluid to simulation.
+OUTFLOW
+Outflow – Delete fluid from simulation.
+GEOMETRY
+Geometry – Only use given geometry for fluid.
+
+Type:
+Literal[‘INFLOW’, ‘OUTFLOW’, ‘GEOMETRY’]
+
+
+
+flow_source
+Change how fluid is emitted (default 'NONE')
+Type:
+Literal[‘NONE’]
+
+
+
+flow_type
+Change type of fluid in the simulation (default 'SMOKE')
+SMOKE
+Smoke – Add smoke.
+BOTH
+Fire + Smoke – Add fire and smoke.
+FIRE
+Fire – Add fire.
+LIQUID
+Liquid – Add liquid.
+
+Type:
+Literal[‘SMOKE’, ‘BOTH’, ‘FIRE’, ‘LIQUID’]
+
+
+
+fuel_amount
+(in [0, 10], default 1.0)
+Type:
+float
+
+
+
+noise_texture
+Texture that controls emission strength
+Type:
+Texture
+
+
+
+particle_size
+Particle size in simulation cells (in [0.1, inf], default 1.0)
+Type:
+float
+
+
+
+particle_system
+Particle systems emitted from the object
+Type:
+ParticleSystem
+
+
+
+smoke_color
+Color of smoke (array of 3 items, in [0, inf], default (0.7, 0.7, 0.7))
+Type:
+mathutils.Color
+
+
+
+subframes
+Number of additional samples to take between frames to improve quality of fast moving flows (in [0, 200], default 0)
+Type:
+int
+
+
+
+surface_distance
+Height (in domain grid units) of fluid emission above the mesh surface. Higher values result in emission further away from the mesh surface. If this value and the emitter size are smaller than the domain grid unit, fluid will not be created (in [0, 10], default 1.0)
+Type:
+float
+
+
+
+temperature
+Temperature difference to ambient temperature (in [-10, 10], default 1.0)
+Type:
+float
+
+
+
+texture_map_type
+Texture mapping type (default 'AUTO')
+AUTO
+Generated – Generated coordinates centered to flow object.
+UV
+UV – Use UV layer for texture coordinates.
+
+Type:
+Literal[‘AUTO’, ‘UV’]
+
+
+
+texture_offset
+Z-offset of texture mapping (in [0, 200], default 0.0)
+Type:
+float
+
+
+
+texture_size
+Size of texture mapping (in [0.01, 10], default 1.0)
+Type:
+float
+
+
+
+use_absolute
+Only allow given density value in emitter area and will not add up (default True)
+Type:
+bool
+
+
+
+use_inflow
+Control when to apply fluid flow (default True)
+Type:
+bool
+
+
+
+use_initial_velocity
+Fluid has some initial velocity when it is emitted (default False)
+Type:
+bool
+
+
+
+use_particle_size
+Set particle size in simulation cells or use nearest cell (default True)
+Type:
+bool
+
+
+
+use_plane_init
+Treat this object as a planar and unclosed mesh. Fluid will only be emitted from the mesh surface and based on the surface emission value. (default False)
+Type:
+bool
+
+
+
+use_texture
+Use a texture to control emission strength (default False)
+Type:
+bool
+
+
+
+uv_layer
+UV map name (default “”, never None)
+Type:
+str
+
+
+
+velocity_coord
+Additional initial velocity in X, Y and Z direction (added to source velocity) (array of 3 items, in [-1000.1, 1000.1], default (0.0, 0.0, 0.0))
+Type:
+mathutils.Vector
+
+
+
+velocity_factor
+Multiplier of source velocity passed to fluid (source velocity is non-zero only if object is moving) (in [-100, 100], default 1.0)
+Type:
+float
+
+
+
+velocity_normal
+Amount of normal directional velocity (in [-100, 100], default 0.0)
+Type:
+float
+
+
+
+velocity_random
+Amount of random velocity (in [0, 10], default 0.0)
+Type:
+float
+
+
+
+volume_density
+Controls fluid emission from within the mesh (higher value results in greater emissions from inside the mesh) (in [0, 1], default 0.0)
+Type:
+float
+
+
+
+classmethod bl_rna_get_subclass(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (bpy.types.Struct | None) – The value to return when not found.
+
+Returns:
+The RNA type or default when not found.
+Return type:
+bpy.types.Struct
+
+
+
+classmethod bl_rna_get_subclass_py(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (type | None) – The value to return when not found.
+
+Returns:
+The class or default when not found.
+Return type:
+type
+
+
+
+Inherited Properties
+bpy_struct.id_data
+
+
+
+Inherited Functions
+bpy_struct.as_pointer
+bpy_struct.driver_add
+bpy_struct.driver_remove
+bpy_struct.get
+bpy_struct.id_properties_clear
+bpy_struct.id_properties_ensure
+bpy_struct.id_properties_ui
+bpy_struct.is_property_hidden
+bpy_struct.is_property_overridable_library
+bpy_struct.is_property_readonly
+bpy_struct.is_property_set
+bpy_struct.items
+
+bpy_struct.keyframe_delete
+bpy_struct.keyframe_insert
+bpy_struct.keys
+bpy_struct.path_from_id
+bpy_struct.path_from_module
+bpy_struct.path_resolve
+bpy_struct.pop
+bpy_struct.property_overridable_library_set
+bpy_struct.property_unset
+bpy_struct.rna_ancestors
+bpy_struct.type_recast
+bpy_struct.values
+
+
+References
+FluidModifier.flow_settings
+
+
+
+        

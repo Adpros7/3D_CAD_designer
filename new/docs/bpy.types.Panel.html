@@ -1,0 +1,328 @@
+
+          
+Panel(bpy_struct)
+Basic Panel Example
+This script is a simple panel which will draw into the object properties
+section.
+Notice the ‘CATEGORY_PT_name’ Panel.bl_idname, this is a naming
+convention for panels.
+Note
+Panel subclasses must be registered for Blender to use them.
+import bpy
+
+class HelloWorldPanel(bpy.types.Panel):
+    bl_idname = &quot;OBJECT_PT_hello_world&quot;
+    bl_label = &quot;Hello World&quot;
+    bl_space_type = &#39;PROPERTIES&#39;
+    bl_region_type = &#39;WINDOW&#39;
+    bl_context = &quot;object&quot;
+    def draw(self, context):
+        self.layout.label(text=&quot;Hello World&quot;)
+
+bpy.utils.register_class(HelloWorldPanel)
+
+
+Simple Object Panel
+This panel has a Panel.poll and Panel.draw_header function,
+even though the contents is basic this closely resembles blenders panels.
+import bpy
+
+class ObjectSelectPanel(bpy.types.Panel):
+    bl_idname = &quot;OBJECT_PT_select&quot;
+    bl_label = &quot;Select&quot;
+    bl_space_type = &#39;PROPERTIES&#39;
+    bl_region_type = &#39;WINDOW&#39;
+    bl_context = &quot;object&quot;
+    bl_options = {&#39;DEFAULT_CLOSED&#39;}
+    @classmethod
+    def poll(cls, context):
+        return (context.object is not None)
+    def draw_header(self, context):
+        layout = self.layout
+        layout.label(text=&quot;My Select Panel&quot;)
+    def draw(self, context):
+        layout = self.layout
+        box = layout.box()
+        box.label(text=&quot;Selection Tools&quot;)
+        box.operator(&quot;object.select_all&quot;).action = &#39;TOGGLE&#39;
+        row = box.row()
+        row.operator(&quot;object.select_all&quot;).action = &#39;INVERT&#39;
+        row.operator(&quot;object.select_random&quot;)
+
+bpy.utils.register_class(ObjectSelectPanel)
+
+
+Mix-in Classes
+A mix-in parent class can be used to share common properties and
+Menu.poll function.
+import bpy
+
+class View3DPanel:
+    bl_space_type = &#39;VIEW_3D&#39;
+    bl_region_type = &#39;UI&#39;
+    bl_category = &quot;Tool&quot;
+    @classmethod
+    def poll(cls, context):
+        return (context.object is not None)
+
+class PanelOne(View3DPanel, bpy.types.Panel):
+    bl_idname = &quot;VIEW3D_PT_test_1&quot;
+    bl_label = &quot;Panel One&quot;
+    def draw(self, context):
+        self.layout.label(text=&quot;Small Class&quot;)
+
+class PanelTwo(View3DPanel, bpy.types.Panel):
+    bl_idname = &quot;VIEW3D_PT_test_2&quot;
+    bl_label = &quot;Panel Two&quot;
+    def draw(self, context):
+        self.layout.label(text=&quot;Also Small Class&quot;)
+
+bpy.utils.register_class(PanelOne)
+bpy.utils.register_class(PanelTwo)
+
+base class — bpy_struct
+
+class bpy.types.Panel(bpy_struct)
+Panel containing UI elements
+
+bl_category
+The category (tab) in which the panel will be displayed, when applicable (default “”, never None)
+Type:
+str
+
+
+
+bl_context
+The context in which the panel belongs to. (TODO: explain the possible combinations bl_context/bl_region_type/bl_space_type) (default “”, never None)
+Type:
+str
+
+
+
+bl_description
+The panel tooltip (default “”)
+Type:
+str
+
+
+
+bl_idname
+If this is set, the panel gets a custom ID, otherwise it takes the name of the class used to define the panel. For example, if the class name is “OBJECT_PT_hello”, and bl_idname is not set by the script, then bl_idname = “OBJECT_PT_hello”. (default “”, never None)
+Type:
+str
+
+
+
+bl_label
+The panel label, shows up in the panel header at the right of the triangle used to collapse the panel (default “”, never None)
+Type:
+str
+
+
+
+bl_options
+Options for this panel type (default set())
+DEFAULT_CLOSED
+Default Closed – Defines if the panel has to be open or collapsed at the time of its creation.
+HIDE_HEADER
+Hide Header – If set to False, the panel shows a header, which contains a clickable arrow to collapse the panel and the label (see bl_label).
+INSTANCED
+Instanced Panel – Multiple panels with this type can be used as part of a list depending on data external to the UI. Used to create panels for the modifiers and other stacks..
+HEADER_LAYOUT_EXPAND
+Expand Header Layout – Allow buttons in the header to stretch and shrink to fill the entire layout width.
+
+Type:
+set[Literal[‘DEFAULT_CLOSED’, ‘HIDE_HEADER’, ‘INSTANCED’, ‘HEADER_LAYOUT_EXPAND’]]
+
+
+
+bl_order
+Panels with lower numbers are default ordered before panels with higher numbers (in [0, inf], default 0)
+Type:
+int
+
+
+
+bl_owner_id
+The ID owning the data displayed in the panel, if any (default “”, never None)
+Type:
+str
+
+
+
+bl_parent_id
+If this is set, the panel becomes a sub-panel (default “”, never None)
+Type:
+str
+
+
+
+bl_region_type
+The region where the panel is going to be used in (default 'WINDOW')
+Type:
+Literal[Region Type Items]
+
+
+
+bl_space_type
+The space where the panel is going to be used in (default 'EMPTY')
+Type:
+Literal[Space Type Items]
+
+
+
+bl_translation_context
+Specific translation context, only define when the label needs to be disambiguated from others using the exact same label (default “*”, never None)
+Type:
+str
+
+
+
+bl_ui_units_x
+When set, defines popup panel width (in [0, inf], default 0)
+Type:
+int
+
+
+
+custom_data
+Panel data (readonly)
+Type:
+Constraint
+
+
+
+is_popover
+(default False, readonly)
+Type:
+bool
+
+
+
+layout
+Defines the structure of the panel in the UI (readonly)
+Type:
+UILayout
+
+
+
+text
+Override for the panel label in the UI (default “”, never None)
+Type:
+str
+
+
+
+use_pin
+Show the panel on all tabs (default False)
+Type:
+bool
+
+
+
+classmethod poll(context)
+If this method returns a non-null output, then the panel can be drawn
+Parameters:
+context (Context) – (never None)
+Return type:
+bool
+
+
+
+draw(context)
+Draw UI elements into the panel UI layout
+Parameters:
+context (Context) – (never None)
+
+
+
+draw_header(context)
+Draw UI elements into the panel’s header UI layout
+Parameters:
+context (Context) – (never None)
+
+
+
+draw_header_preset(context)
+Draw UI elements for presets in the panel’s header
+Parameters:
+context (Context) – (never None)
+
+
+
+classmethod append(draw_func)
+Append a draw function to this menu,
+takes the same arguments as the menus draw function
+
+
+classmethod is_extended()
+
+
+classmethod prepend(draw_func)
+Prepend a draw function to this menu, takes the same arguments as
+the menus draw function
+
+
+classmethod remove(draw_func)
+Remove a draw function that has been added to this menu.
+
+
+classmethod bl_rna_get_subclass(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (bpy.types.Struct | None) – The value to return when not found.
+
+Returns:
+The RNA type or default when not found.
+Return type:
+bpy.types.Struct
+
+
+
+classmethod bl_rna_get_subclass_py(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (type | None) – The value to return when not found.
+
+Returns:
+The class or default when not found.
+Return type:
+type
+
+
+
+Inherited Properties
+bpy_struct.id_data
+
+
+
+Inherited Functions
+bpy_struct.as_pointer
+bpy_struct.driver_add
+bpy_struct.driver_remove
+bpy_struct.get
+bpy_struct.id_properties_clear
+bpy_struct.id_properties_ensure
+bpy_struct.id_properties_ui
+bpy_struct.is_property_hidden
+bpy_struct.is_property_overridable_library
+bpy_struct.is_property_readonly
+bpy_struct.is_property_set
+bpy_struct.items
+
+bpy_struct.keyframe_delete
+bpy_struct.keyframe_insert
+bpy_struct.keys
+bpy_struct.path_from_id
+bpy_struct.path_from_module
+bpy_struct.path_resolve
+bpy_struct.pop
+bpy_struct.property_overridable_library_set
+bpy_struct.property_unset
+bpy_struct.rna_ancestors
+bpy_struct.type_recast
+bpy_struct.values
+
+
+
+        

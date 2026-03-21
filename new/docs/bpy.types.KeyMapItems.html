@@ -1,0 +1,182 @@
+
+          
+KeyMapItems(bpy_prop_collection)
+base classes — bpy_prop, bpy_prop_collection
+
+class bpy.types.KeyMapItems(bpy_prop_collection)
+Collection of keymap items
+
+new(idname, type, value, *, any=False, shift=0, ctrl=0, alt=0, oskey=0, hyper=0, key_modifier='NONE', direction='ANY', repeat=False, head=False)
+new
+Parameters:
+idname (str) – Operator Identifier, (never None)
+type (Literal[Event Type Items]) – Type
+value (Literal[Event Value Items]) – Value
+any (bool) – Any, (optional)
+shift (int) – Shift, (in [-1, 1], optional)
+ctrl (int) – Ctrl, (in [-1, 1], optional)
+alt (int) – Alt, (in [-1, 1], optional)
+oskey (int) – OS Key, (in [-1, 1], optional)
+hyper (int) – Hyper, (in [-1, 1], optional)
+key_modifier (Literal[Event Type Items]) – Key Modifier, (optional)
+direction (Literal[Event Direction Items]) – Direction, (optional)
+repeat (bool) – Repeat, When set, accept key-repeat events (optional)
+head (bool) – At Head, Force item to be added at start (not end) of key map so that it doesn’t get blocked by an existing key map item (optional)
+
+Returns:
+Item, Added key map item
+Return type:
+KeyMapItem
+
+
+
+new_modal(propvalue, type, value, *, any=False, shift=0, ctrl=0, alt=0, oskey=0, hyper=0, key_modifier='NONE', direction='ANY', repeat=False)
+new_modal
+Parameters:
+propvalue (str) – Property Value, (never None)
+type (Literal[Event Type Items]) – Type
+value (Literal[Event Value Items]) – Value
+any (bool) – Any, (optional)
+shift (int) – Shift, (in [-1, 1], optional)
+ctrl (int) – Ctrl, (in [-1, 1], optional)
+alt (int) – Alt, (in [-1, 1], optional)
+oskey (int) – OS Key, (in [-1, 1], optional)
+hyper (int) – Hyper, (in [-1, 1], optional)
+key_modifier (Literal[Event Type Items]) – Key Modifier, (optional)
+direction (Literal[Event Direction Items]) – Direction, (optional)
+repeat (bool) – Repeat, When set, accept key-repeat events (optional)
+
+Returns:
+Item, Added key map item
+Return type:
+KeyMapItem
+
+
+
+new_from_item(item, *, head=False)
+new_from_item
+Parameters:
+item (KeyMapItem) – Item, Item to use as a reference (never None)
+head (bool) – At Head, (optional)
+
+Returns:
+Item, Added key map item
+Return type:
+KeyMapItem
+
+
+
+remove(item)
+remove
+Parameters:
+item (KeyMapItem) – Item, (never None)
+
+
+
+from_id(id)
+from_id
+Parameters:
+id (int) – id, ID of the item (in [-inf, inf])
+Returns:
+Item
+Return type:
+KeyMapItem
+
+
+
+find_from_operator(idname, *, properties=None, include={'ACTIONZONE', 'KEYBOARD', 'MOUSE', 'NDOF'}, exclude=set())
+find_from_operator
+Parameters:
+idname (str) – Operator Identifier, (never None)
+properties (OperatorProperties) – (optional)
+include (set[Literal[Event Type Mask Items]]) – Include, (optional)
+exclude (set[Literal[Event Type Mask Items]]) – Exclude, (optional)
+
+Return type:
+KeyMapItem
+
+
+
+find_match(keymap, item)
+find_match
+Parameters:
+keymap (KeyMap) – The matching keymap
+item (KeyMapItem) – The matching keymap item
+
+Returns:
+The keymap item from this keymap which matches the keymap item from the arguments passed in
+Return type:
+KeyMapItem
+
+
+
+match_event(event)
+match_event
+Return type:
+KeyMapItem
+
+
+
+classmethod bl_rna_get_subclass(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (bpy.types.Struct | None) – The value to return when not found.
+
+Returns:
+The RNA type or default when not found.
+Return type:
+bpy.types.Struct
+
+
+
+classmethod bl_rna_get_subclass_py(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (type | None) – The value to return when not found.
+
+Returns:
+The class or default when not found.
+Return type:
+type
+
+
+
+Inherited Properties
+bpy_struct.id_data
+
+
+
+Inherited Functions
+bpy_struct.as_pointer
+bpy_struct.driver_add
+bpy_struct.driver_remove
+bpy_struct.get
+bpy_struct.id_properties_clear
+bpy_struct.id_properties_ensure
+bpy_struct.id_properties_ui
+bpy_struct.is_property_hidden
+bpy_struct.is_property_overridable_library
+bpy_struct.is_property_readonly
+bpy_struct.is_property_set
+bpy_struct.items
+
+bpy_struct.keyframe_delete
+bpy_struct.keyframe_insert
+bpy_struct.keys
+bpy_struct.path_from_id
+bpy_struct.path_from_module
+bpy_struct.path_resolve
+bpy_struct.pop
+bpy_struct.property_overridable_library_set
+bpy_struct.property_unset
+bpy_struct.rna_ancestors
+bpy_struct.type_recast
+bpy_struct.values
+
+
+References
+KeyMap.keymap_items
+
+
+
+        

@@ -1,0 +1,362 @@
+
+          
+DopeSheet(bpy_struct)
+base class — bpy_struct
+
+class bpy.types.DopeSheet(bpy_struct)
+Settings for filtering the channels shown in animation editors
+
+filter_collection
+Collection that included object should be a member of
+Type:
+Collection
+
+
+
+filter_fcurve_name
+F-Curve live filtering string (default “”, never None)
+Type:
+str
+
+
+
+filter_text
+Live filtering string (default “”, never None)
+Type:
+str
+
+
+
+show_armatures
+Include visualization of armature related animation data (default True)
+Type:
+bool
+
+
+
+show_cache_files
+Include visualization of cache file related animation data (default True)
+Type:
+bool
+
+
+
+show_cameras
+Include visualization of camera related animation data (default True)
+Type:
+bool
+
+
+
+show_curves
+Include visualization of curve related animation data (default True)
+Type:
+bool
+
+
+
+show_datablock_filters
+Show options for whether channels related to certain types of data are included (default False)
+Type:
+bool
+
+
+
+show_driver_fallback_as_error
+Include drivers that relied on any fallback values for their evaluation in the Only Show Errors filter, even if the driver evaluation succeeded (default False)
+Type:
+bool
+
+
+
+show_expanded_summary
+Collapse summary when shown, so all other channels get hidden (Dope Sheet editors only) (default True)
+Type:
+bool
+
+
+
+show_gpencil
+Include visualization of Grease Pencil related animation data and frames (default True)
+Type:
+bool
+
+
+
+show_hair_curves
+Include visualization of hair related animation data (default True)
+Type:
+bool
+
+
+
+show_hidden
+Include channels from objects/bone that are not visible (default False)
+Type:
+bool
+
+
+
+show_lattices
+Include visualization of lattice related animation data (default True)
+Type:
+bool
+
+
+
+show_lightprobes
+Include visualization of lightprobe related animation data (default True)
+Type:
+bool
+
+
+
+show_lights
+Include visualization of light related animation data (default True)
+Type:
+bool
+
+
+
+show_linestyles
+Include visualization of Line Style related Animation data (default True)
+Type:
+bool
+
+
+
+show_materials
+Include visualization of material related animation data (default True)
+Type:
+bool
+
+
+
+show_meshes
+Include visualization of mesh related animation data (default True)
+Type:
+bool
+
+
+
+show_metaballs
+Include visualization of metaball related animation data (default True)
+Type:
+bool
+
+
+
+show_missing_nla
+Include animation data-blocks with no NLA data (NLA editor only) (default True)
+Type:
+bool
+
+
+
+show_modifiers
+Include visualization of animation data related to data-blocks linked to modifiers (default True)
+Type:
+bool
+
+
+
+show_movieclips
+Include visualization of movie clip related animation data (default True)
+Type:
+bool
+
+
+
+show_nodes
+Include visualization of node related animation data (default True)
+Type:
+bool
+
+
+
+show_only_errors
+Only include F-Curves and drivers that are disabled or have errors (default False)
+Type:
+bool
+
+
+
+show_only_selected
+Only include channels relating to selected objects and data (default False)
+Type:
+bool
+
+
+
+show_only_slot_of_active_object
+Only show the slot of the active Object. Otherwise show all the Action’s Slots (default False)
+Type:
+bool
+
+
+
+show_particles
+Include visualization of particle related animation data (default True)
+Type:
+bool
+
+
+
+show_pointclouds
+Include visualization of point cloud related animation data (default True)
+Type:
+bool
+
+
+
+show_scenes
+Include visualization of scene related animation data (default True)
+Type:
+bool
+
+
+
+show_shapekeys
+Include visualization of shape key related animation data (default True)
+Type:
+bool
+
+
+
+show_speakers
+Include visualization of speaker related animation data (default True)
+Type:
+bool
+
+
+
+show_summary
+Display an additional ‘summary’ line (Dope Sheet editors only) (default False)
+Type:
+bool
+
+
+
+show_textures
+Include visualization of texture related animation data (default True)
+Type:
+bool
+
+
+
+show_transforms
+Include visualization of object-level animation data (mostly transforms) (default True)
+Type:
+bool
+
+
+
+show_volumes
+Include visualization of volume related animation data (default True)
+Type:
+bool
+
+
+
+show_worlds
+Include visualization of world related animation data (default True)
+Type:
+bool
+
+
+
+source
+ID-Block representing source data, usually ID_SCE (i.e. Scene) (readonly)
+Type:
+ID
+
+
+
+use_datablock_sort
+Alphabetically sorts data-blocks - mainly objects in the scene (disable to increase viewport speed) (default True)
+Type:
+bool
+
+
+
+use_filter_invert
+Invert filter search (default False)
+Type:
+bool
+
+
+
+use_multi_word_filter
+Perform fuzzy/multi-word matching.
+Warning: May be slow
+(default False)
+Type:
+bool
+
+
+
+classmethod bl_rna_get_subclass(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (bpy.types.Struct | None) – The value to return when not found.
+
+Returns:
+The RNA type or default when not found.
+Return type:
+bpy.types.Struct
+
+
+
+classmethod bl_rna_get_subclass_py(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (type | None) – The value to return when not found.
+
+Returns:
+The class or default when not found.
+Return type:
+type
+
+
+
+Inherited Properties
+bpy_struct.id_data
+
+
+
+Inherited Functions
+bpy_struct.as_pointer
+bpy_struct.driver_add
+bpy_struct.driver_remove
+bpy_struct.get
+bpy_struct.id_properties_clear
+bpy_struct.id_properties_ensure
+bpy_struct.id_properties_ui
+bpy_struct.is_property_hidden
+bpy_struct.is_property_overridable_library
+bpy_struct.is_property_readonly
+bpy_struct.is_property_set
+bpy_struct.items
+
+bpy_struct.keyframe_delete
+bpy_struct.keyframe_insert
+bpy_struct.keys
+bpy_struct.path_from_id
+bpy_struct.path_from_module
+bpy_struct.path_resolve
+bpy_struct.pop
+bpy_struct.property_overridable_library_set
+bpy_struct.property_unset
+bpy_struct.rna_ancestors
+bpy_struct.type_recast
+bpy_struct.values
+
+
+References
+SpaceDopeSheetEditor.dopesheet
+SpaceGraphEditor.dopesheet
+
+SpaceNLA.dopesheet
+
+
+        

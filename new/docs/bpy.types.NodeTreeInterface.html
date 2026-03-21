@@ -1,0 +1,168 @@
+
+          
+NodeTreeInterface(bpy_struct)
+base class — bpy_struct
+
+class bpy.types.NodeTreeInterface(bpy_struct)
+Declaration of sockets and ui panels of a node group
+
+active
+Active item
+Type:
+NodeTreeInterfaceItem
+
+
+
+active_index
+Index of the active item (in [0, inf], default 0)
+Type:
+int
+
+
+
+items_tree
+Items in the node interface (default None, readonly)
+Type:
+bpy_prop_collection[NodeTreeInterfaceItem]
+
+
+
+new_socket(name, *, description='', in_out='INPUT', socket_type='DEFAULT', parent=None)
+Add a new socket to the interface
+Parameters:
+name (str) – Name, Name of the socket (never None)
+description (str) – Description, Description of the socket (optional, never None)
+in_out (Literal['INPUT', 'OUTPUT']) – Input/Output Type, Create an input or output socket (optional)
+INPUT
+Input – Generate a input node socket.
+OUTPUT
+Output – Generate a output node socket.
+
+socket_type (Literal['DEFAULT']) – Socket Type, Type of socket generated on nodes (optional)
+parent (NodeTreeInterfacePanel) – Parent, Panel to add the socket in (optional)
+
+Returns:
+Socket, New socket
+Return type:
+NodeTreeInterfaceSocket
+
+
+
+new_panel(name, *, description='', default_closed=False)
+Add a new panel to the interface
+Parameters:
+name (str) – Name, Name of the new panel (never None)
+description (str) – Description, Description of the panel (optional, never None)
+default_closed (bool) – Default Closed, Panel is closed by default on new nodes (optional)
+
+Returns:
+Panel, New panel
+Return type:
+NodeTreeInterfacePanel
+
+
+
+copy(item)
+Add a copy of an item to the interface
+Parameters:
+item (NodeTreeInterfaceItem) – Item, Item to copy (never None)
+Returns:
+Item Copy, Copy of the item
+Return type:
+NodeTreeInterfaceItem
+
+
+
+remove(item, *, move_content_to_parent=True)
+Remove an item from the interface
+Parameters:
+item (NodeTreeInterfaceItem) – Item, The item to remove (never None)
+move_content_to_parent (bool) – Move Content, If the item is a panel, move the contents to the parent instead of deleting it (optional)
+
+
+
+clear()
+Remove all items from the interface
+
+
+move(item, to_position)
+Move an item to another position
+Parameters:
+item (NodeTreeInterfaceItem) – Item, The item to move (never None)
+to_position (int) – To Position, Target position for the item in its current panel (in [0, inf])
+
+
+
+move_to_parent(item, parent, to_position)
+Move an item to a new panel and/or position.
+Parameters:
+item (NodeTreeInterfaceItem) – Item, The item to move (never None)
+parent (NodeTreeInterfacePanel) – Parent, New parent of the item
+to_position (int) – To Position, Target position for the item in the new parent panel (in [0, inf])
+
+
+
+classmethod bl_rna_get_subclass(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (bpy.types.Struct | None) – The value to return when not found.
+
+Returns:
+The RNA type or default when not found.
+Return type:
+bpy.types.Struct
+
+
+
+classmethod bl_rna_get_subclass_py(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (type | None) – The value to return when not found.
+
+Returns:
+The class or default when not found.
+Return type:
+type
+
+
+
+Inherited Properties
+bpy_struct.id_data
+
+
+
+Inherited Functions
+bpy_struct.as_pointer
+bpy_struct.driver_add
+bpy_struct.driver_remove
+bpy_struct.get
+bpy_struct.id_properties_clear
+bpy_struct.id_properties_ensure
+bpy_struct.id_properties_ui
+bpy_struct.is_property_hidden
+bpy_struct.is_property_overridable_library
+bpy_struct.is_property_readonly
+bpy_struct.is_property_set
+bpy_struct.items
+
+bpy_struct.keyframe_delete
+bpy_struct.keyframe_insert
+bpy_struct.keys
+bpy_struct.path_from_id
+bpy_struct.path_from_module
+bpy_struct.path_resolve
+bpy_struct.pop
+bpy_struct.property_overridable_library_set
+bpy_struct.property_unset
+bpy_struct.rna_ancestors
+bpy_struct.type_recast
+bpy_struct.values
+
+
+References
+NodeTree.interface
+
+UILayout.template_node_tree_interface
+
+
+        

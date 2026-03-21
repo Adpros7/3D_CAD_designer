@@ -1,0 +1,81 @@
+
+          
+Workspace Operators
+
+bpy.ops.workspace.add()
+Add a new workspace by duplicating the current one or appending one from the user configuration
+Returns:
+Result of the operator call.
+Return type:
+set[Literal[Operator Return Items]]
+
+
+
+bpy.ops.workspace.append_activate(*, idname='', filepath='')
+Append a workspace and make it the active one in the current window
+Parameters:
+idname (str) – Identifier, Name of the workspace to append and activate (optional, never None)
+filepath (str) – Filepath, Path to the library (optional, never None, blend relative // prefix supported)
+
+Returns:
+Result of the operator call.
+Return type:
+set[Literal[Operator Return Items]]
+
+
+
+bpy.ops.workspace.delete()
+Delete the active workspace
+Returns:
+Result of the operator call.
+Return type:
+set[Literal[Operator Return Items]]
+
+
+
+bpy.ops.workspace.delete_all_others()
+Delete all workspaces except this one
+Returns:
+Result of the operator call.
+Return type:
+set[Literal[Operator Return Items]]
+
+
+
+bpy.ops.workspace.duplicate()
+Add a new workspace
+Returns:
+Result of the operator call.
+Return type:
+set[Literal[Operator Return Items]]
+
+
+
+bpy.ops.workspace.reorder_to_back()
+Reorder workspace to be last in the list
+Returns:
+Result of the operator call.
+Return type:
+set[Literal[Operator Return Items]]
+
+
+
+bpy.ops.workspace.reorder_to_front()
+Reorder workspace to be first in the list
+Returns:
+Result of the operator call.
+Return type:
+set[Literal[Operator Return Items]]
+
+
+
+bpy.ops.workspace.scene_pin_toggle()
+Remember the last used scene for the current workspace and switch to it whenever this workspace is activated again
+Returns:
+Result of the operator call.
+Return type:
+set[Literal[Operator Return Items]]
+
+
+
+        

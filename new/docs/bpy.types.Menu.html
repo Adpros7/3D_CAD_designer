@@ -1,0 +1,357 @@
+
+          
+Menu(bpy_struct)
+Basic Menu Example
+Here is an example of a simple menu. Menus differ from panels in that they must
+reference from a header, panel or another menu.
+Notice the ‘CATEGORY_MT_name’ in  Menu.bl_idname, this is a naming
+convention for menus.
+Note
+Menu subclasses must be registered before referencing them from Blender.
+
+Note
+Menus have their UILayout.operator_context initialized as
+‘EXEC_REGION_WIN’ rather than ‘INVOKE_REGION_WIN’ (see Execution Context).
+If the operator context needs to initialize inputs from the
+Operator.invoke function, then this needs to be explicitly set.
+When a menu is added to UI elements such as a panel or header,
+the operator execution context will be inherited from them.
+import bpy
+
+class BasicMenu(bpy.types.Menu):
+    bl_idname = &quot;OBJECT_MT_select_test&quot;
+    bl_label = &quot;Select&quot;
+    def draw(self, context):
+        layout = self.layout
+        layout.operator(&quot;object.select_all&quot;, text=&quot;Select/Deselect All&quot;).action = &#39;TOGGLE&#39;
+        layout.operator(&quot;object.select_all&quot;, text=&quot;Inverse&quot;).action = &#39;INVERT&#39;
+        layout.operator(&quot;object.select_random&quot;, text=&quot;Random&quot;)
+
+bpy.utils.register_class(BasicMenu)
+# Test call to display immediately.
+bpy.ops.wm.call_menu(name=&quot;OBJECT_MT_select_test&quot;)
+
+
+Submenus
+This menu demonstrates some different functions.
+import bpy
+
+class SubMenu(bpy.types.Menu):
+    bl_idname = &quot;OBJECT_MT_select_submenu&quot;
+    bl_label = &quot;Select&quot;
+    def draw(self, context):
+        layout = self.layout
+        layout.operator(&quot;object.select_all&quot;, text=&quot;Select/Deselect All&quot;).action = &#39;TOGGLE&#39;
+        layout.operator(&quot;object.select_all&quot;, text=&quot;Inverse&quot;).action = &#39;INVERT&#39;
+        layout.operator(&quot;object.select_random&quot;, text=&quot;Random&quot;)
+        # Access this operator as a sub-menu.
+        layout.operator_menu_enum(&quot;object.select_by_type&quot;, &quot;type&quot;, text=&quot;Select All by Type&quot;)
+        layout.separator()
+        # Expand each operator option into this menu.
+        layout.operator_enum(&quot;object.light_add&quot;, &quot;type&quot;)
+        layout.separator()
+        # Use existing menu.
+        layout.menu(&quot;VIEW3D_MT_transform&quot;)
+
+bpy.utils.register_class(SubMenu)
+# Test call to display immediately.
+bpy.ops.wm.call_menu(name=&quot;OBJECT_MT_select_submenu&quot;)
+
+
+Extending Menus
+When creating menus for add-ons you can’t reference menus
+in Blender’s default scripts.
+Instead, the add-on can add menu items to existing menus.
+The function menu_draw acts like Menu.draw.
+import bpy
+
+def menu_draw(self, context):
+    self.layout.operator(&quot;wm.save_homefile&quot;)
+
+bpy.types.TOPBAR_MT_file.append(menu_draw)
+
+
+Preset Menus
+Preset menus are simply a convention that uses a menu sub-class
+to perform the common task of managing presets.
+This example shows how you can add a preset menu.
+This example uses the object display options,
+however you can use properties defined by your own scripts too.
+import bpy
+from bpy.types import Operator, Menu
+from bl_operators.presets import AddPresetBase
+
+class OBJECT_MT_display_presets(Menu):
+    bl_label = &quot;Object Display Presets&quot;
+    preset_subdir = &quot;object/display&quot;
+    preset_operator = &quot;script.execute_preset&quot;
+    draw = Menu.draw_preset
+
+class AddPresetObjectDisplay(AddPresetBase, Operator):
+    &#39;&#39;&#39;Add a Object Display Preset&#39;&#39;&#39;
+    bl_idname = &quot;camera.object_display_preset_add&quot;
+    bl_label = &quot;Add Object Display Preset&quot;
+    preset_menu = &quot;OBJECT_MT_display_presets&quot;
+    # Variable used for all preset values.
+    preset_defines = [
+        &quot;obj = bpy.context.object&quot;
+    ]
+    # Properties to store in the preset.
+    preset_values = [
+        &quot;obj.display_type&quot;,
+        &quot;obj.show_bounds&quot;,
+        &quot;obj.display_bounds_type&quot;,
+        &quot;obj.show_name&quot;,
+        &quot;obj.show_axis&quot;,
+        &quot;obj.show_wire&quot;,
+    ]
+    # Where to store the preset.
+    preset_subdir = &quot;object/display&quot;
+
+# Display into an existing panel.
+def panel_func(self, context):
+    layout = self.layout
+    row = layout.row(align=True)
+    row.menu(OBJECT_MT_display_presets.__name__, text=OBJECT_MT_display_presets.bl_label)
+    row.operator(AddPresetObjectDisplay.bl_idname, text=&quot;&quot;, icon=&#39;ZOOM_IN&#39;)
+    row.operator(AddPresetObjectDisplay.bl_idname, text=&quot;&quot;, icon=&#39;ZOOM_OUT&#39;).remove_active = True
+
+classes = (
+    OBJECT_MT_display_presets,
+    AddPresetObjectDisplay,
+)
+
+def register():
+    for cls in classes:
+        bpy.utils.register_class(cls)
+    bpy.types.OBJECT_PT_display.prepend(panel_func)
+
+def unregister():
+    for cls in classes:
+        bpy.utils.unregister_class(cls)
+    bpy.types.OBJECT_PT_display.remove(panel_func)
+
+if __name__ == &quot;__main__&quot;:
+    register()
+
+
+Extending the Button Context Menu
+This example enables you to insert your own menu entry into the common
+right click menu that you get while hovering over a UI button (e.g. operator,
+value field, color, string, etc.)
+To make the example work, you have to first select an object
+then right click on an user interface element (maybe a color in the
+material properties) and choose Execute Custom Action.
+Executing the operator will then print all values.
+import bpy
+
+def dump(obj, text):
+    for attr in dir(obj):
+        print(&quot;{!r}.{:s} = {!s}&quot;.format(obj, attr, getattr(obj, attr)))
+
+class WM_OT_button_context_test(bpy.types.Operator):
+    &quot;&quot;&quot;Right click entry test&quot;&quot;&quot;
+    bl_idname = &quot;wm.button_context_test&quot;
+    bl_label = &quot;Run Context Test&quot;
+    @classmethod
+    def poll(cls, context):
+        return context.active_object is not None
+    def execute(self, context):
+        value = getattr(context, &quot;button_pointer&quot;, None)
+        if value is not None:
+            dump(value, &quot;button_pointer&quot;)
+        value = getattr(context, &quot;button_prop&quot;, None)
+        if value is not None:
+            dump(value, &quot;button_prop&quot;)
+        value = getattr(context, &quot;button_operator&quot;, None)
+        if value is not None:
+            dump(value, &quot;button_operator&quot;)
+        return {&#39;FINISHED&#39;}
+
+def draw_menu(self, context):
+    layout = self.layout
+    layout.separator()
+    layout.operator(WM_OT_button_context_test.bl_idname)
+
+def register():
+    bpy.utils.register_class(WM_OT_button_context_test)
+    bpy.types.UI_MT_button_context_menu.append(draw_menu)
+
+def unregister():
+    bpy.types.UI_MT_button_context_menu.remove(draw_menu)
+    bpy.utils.unregister_class(WM_OT_button_context_test)
+
+if __name__ == &quot;__main__&quot;:
+    register()
+
+base class — bpy_struct
+
+class bpy.types.Menu(bpy_struct)
+Editor menu containing buttons
+
+bl_description
+(default “”)
+Type:
+str
+
+
+
+bl_idname
+If this is set, the menu gets a custom ID, otherwise it takes the name of the class used to define the menu (for example, if the class name is “OBJECT_MT_hello”, and bl_idname is not set by the script, then bl_idname = “OBJECT_MT_hello”) (default “”, never None)
+Type:
+str
+
+
+
+bl_label
+The menu label (default “”, never None)
+Type:
+str
+
+
+
+bl_options
+Options for this menu type (default set())
+SEARCH_ON_KEY_PRESS
+Search on Key Press – Open a menu search when a key pressed while the menu is open.
+
+Type:
+set[Literal[‘SEARCH_ON_KEY_PRESS’]]
+
+
+
+bl_owner_id
+(default “”, never None)
+Type:
+str
+
+
+
+bl_translation_context
+(default “*”, never None)
+Type:
+str
+
+
+
+layout
+Defines the structure of the menu in the UI (readonly)
+Type:
+UILayout
+
+
+
+classmethod poll(context)
+If this method returns a non-null output, then the menu can be drawn
+Return type:
+bool
+
+
+
+draw(context)
+Draw UI elements into the menu UI layout
+
+
+
+classmethod append(draw_func)
+Append a draw function to this menu,
+takes the same arguments as the menus draw function
+
+
+classmethod draw_collapsible(context, layout)
+
+
+draw_preset(_context)
+Define these on the subclass:
+- preset_operator (string)
+- preset_subdir (string)
+Optionally:
+- preset_add_operator (string)
+- preset_extensions (set of strings)
+- preset_operator_defaults (dict of keyword args)
+
+
+classmethod is_extended()
+
+
+path_menu(searchpaths, operator, *, props_default=None, prop_filepath='filepath', filter_ext=None, filter_path=None, display_name=None, add_operator=None, add_operator_props=None, translate=True)
+Populate a menu from a list of paths.
+Parameters:
+searchpaths (Sequence[str]) – Paths to scan.
+operator (str) – The operator id to use with each file.
+prop_filepath (str) – Optional operator filepath property (defaults to “filepath”).
+props_default (dict[str, Any] | None) – Properties to assign to each operator.
+filter_ext (Callable[[str], bool] | None) – Optional callback that takes the file extensions.
+Returning false excludes the file from the list.
+display_name (Callable[[str], str] | None) – Optional callback that takes the full path, returns the name to display.
+
+
+
+classmethod prepend(draw_func)
+Prepend a draw function to this menu, takes the same arguments as
+the menus draw function
+
+
+classmethod remove(draw_func)
+Remove a draw function that has been added to this menu.
+
+
+classmethod bl_rna_get_subclass(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (bpy.types.Struct | None) – The value to return when not found.
+
+Returns:
+The RNA type or default when not found.
+Return type:
+bpy.types.Struct
+
+
+
+classmethod bl_rna_get_subclass_py(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (type | None) – The value to return when not found.
+
+Returns:
+The class or default when not found.
+Return type:
+type
+
+
+
+Inherited Properties
+bpy_struct.id_data
+
+
+
+Inherited Functions
+bpy_struct.as_pointer
+bpy_struct.driver_add
+bpy_struct.driver_remove
+bpy_struct.get
+bpy_struct.id_properties_clear
+bpy_struct.id_properties_ensure
+bpy_struct.id_properties_ui
+bpy_struct.is_property_hidden
+bpy_struct.is_property_overridable_library
+bpy_struct.is_property_readonly
+bpy_struct.is_property_set
+bpy_struct.items
+
+bpy_struct.keyframe_delete
+bpy_struct.keyframe_insert
+bpy_struct.keys
+bpy_struct.path_from_id
+bpy_struct.path_from_module
+bpy_struct.path_resolve
+bpy_struct.pop
+bpy_struct.property_overridable_library_set
+bpy_struct.property_unset
+bpy_struct.rna_ancestors
+bpy_struct.type_recast
+bpy_struct.values
+
+
+
+        

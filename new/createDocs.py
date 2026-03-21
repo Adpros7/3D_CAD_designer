@@ -13,11 +13,12 @@ for i in os.listdir(r'C:\Users\prani\Coding\AI\3D_CAD_designer\new\blender_pytho
             if j == ">":
                 extractedFlag = True
 
+
             elif j == "<":
                 extractedFlag = False
 
             elif extractedFlag:
                 extracted += j
 
-            with open(f'C:/Users/prani/Coding/AI/3D_CAD_designer/new/docs/{i}', 'w') as f:
-                f.write(extracted.replace("¶", "").replace("\n\n", "\n"))
+        with open(f'C:/Users/prani/Coding/AI/3D_CAD_designer/new/docs/{i}', 'w', encoding="utf-8") as f:
+            f.write(extracted.replace("¶", "").replace("\n\n", "\n"))

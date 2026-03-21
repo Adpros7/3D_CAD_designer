@@ -1,0 +1,179 @@
+
+          
+Keyframe(bpy_struct)
+base class — bpy_struct
+
+class bpy.types.Keyframe(bpy_struct)
+Bézier curve point with two handles defining a Keyframe on an F-Curve
+
+amplitude
+Amount to boost elastic bounces for ‘elastic’ easing (in [0, inf], default 0.0)
+Type:
+float
+
+
+
+back
+Amount of overshoot for ‘back’ easing (in [-inf, inf], default 0.0)
+Type:
+float
+
+
+
+co
+Coordinates of the control point (array of 2 items, in [-inf, inf], default (0.0, 0.0))
+Type:
+mathutils.Vector
+
+
+
+co_ui
+Coordinates of the control point. Note: Changing this value also updates the handles similar to using the graph editor transform operator (array of 2 items, in [-inf, inf], default (0.0, 0.0))
+Type:
+mathutils.Vector
+
+
+
+easing
+Which ends of the segment between this and the next keyframe easing interpolation is applied to (default 'AUTO')
+Type:
+Literal[Beztriple Interpolation Easing Items]
+
+
+
+handle_left
+Coordinates of the left handle (before the control point) (array of 2 items, in [-inf, inf], default (0.0, 0.0))
+Type:
+mathutils.Vector
+
+
+
+handle_left_type
+Handle types (default 'FREE')
+Type:
+Literal[Keyframe Handle Type Items]
+
+
+
+handle_right
+Coordinates of the right handle (after the control point) (array of 2 items, in [-inf, inf], default (0.0, 0.0))
+Type:
+mathutils.Vector
+
+
+
+handle_right_type
+Handle types (default 'FREE')
+Type:
+Literal[Keyframe Handle Type Items]
+
+
+
+interpolation
+Interpolation method to use for segment of the F-Curve from this Keyframe until the next Keyframe (default 'CONSTANT')
+Type:
+Literal[Beztriple Interpolation Mode Items]
+
+
+
+period
+Time between bounces for elastic easing (in [-inf, inf], default 0.0)
+Type:
+float
+
+
+
+select_control_point
+Control point selection status (default False)
+Type:
+bool
+
+
+
+select_left_handle
+Left handle selection status (default False)
+Type:
+bool
+
+
+
+select_right_handle
+Right handle selection status (default False)
+Type:
+bool
+
+
+
+type
+Type of keyframe (for visual purposes only) (default 'KEYFRAME')
+Type:
+Literal[Beztriple Keyframe Type Items]
+
+
+
+classmethod bl_rna_get_subclass(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (bpy.types.Struct | None) – The value to return when not found.
+
+Returns:
+The RNA type or default when not found.
+Return type:
+bpy.types.Struct
+
+
+
+classmethod bl_rna_get_subclass_py(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (type | None) – The value to return when not found.
+
+Returns:
+The class or default when not found.
+Return type:
+type
+
+
+
+Inherited Properties
+bpy_struct.id_data
+
+
+
+Inherited Functions
+bpy_struct.as_pointer
+bpy_struct.driver_add
+bpy_struct.driver_remove
+bpy_struct.get
+bpy_struct.id_properties_clear
+bpy_struct.id_properties_ensure
+bpy_struct.id_properties_ui
+bpy_struct.is_property_hidden
+bpy_struct.is_property_overridable_library
+bpy_struct.is_property_readonly
+bpy_struct.is_property_set
+bpy_struct.items
+
+bpy_struct.keyframe_delete
+bpy_struct.keyframe_insert
+bpy_struct.keys
+bpy_struct.path_from_id
+bpy_struct.path_from_module
+bpy_struct.path_resolve
+bpy_struct.pop
+bpy_struct.property_overridable_library_set
+bpy_struct.property_unset
+bpy_struct.rna_ancestors
+bpy_struct.type_recast
+bpy_struct.values
+
+
+References
+bpy.context.selected_editable_keyframes
+FCurve.keyframe_points
+
+FCurveKeyframePoints.insert
+FCurveKeyframePoints.remove
+
+
+        

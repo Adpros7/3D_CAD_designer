@@ -1,0 +1,198 @@
+
+          
+GizmoGroup(bpy_struct)
+base class — bpy_struct
+
+class bpy.types.GizmoGroup(bpy_struct)
+Storage of an operator being executed, or registered after execution
+
+bl_idname
+(default “”, never None)
+Type:
+str
+
+
+
+bl_label
+(default “”, never None)
+Type:
+str
+
+
+
+bl_options
+Options for this operator type (default set())
+3D
+3D – Use in 3D viewport.
+SCALE
+Scale – Scale to respect zoom (otherwise zoom independent display size).
+DEPTH_3D
+Depth 3D – Supports culled depth by other objects in the view.
+SELECT
+Select – Supports selection.
+PERSISTENT
+Persistent.
+SHOW_MODAL_ALL
+Show Modal All – Show all while interacting, as well as this group when another is being interacted with.
+EXCLUDE_MODAL
+Exclude Modal – Show all except this group while interacting.
+TOOL_INIT
+Tool Init – Postpone running until tool operator run (when used with a tool).
+TOOL_FALLBACK_KEYMAP
+Use fallback tools keymap – Add fallback tools keymap to this gizmo type.
+VR_REDRAWS
+VR Redraws – The gizmos are made for use with virtual reality sessions and require special redraw management.
+
+Type:
+set[Literal[‘3D’, ‘SCALE’, ‘DEPTH_3D’, ‘SELECT’, ‘PERSISTENT’, ‘SHOW_MODAL_ALL’, ‘EXCLUDE_MODAL’, ‘TOOL_INIT’, ‘TOOL_FALLBACK_KEYMAP’, ‘VR_REDRAWS’]]
+
+
+
+bl_owner_id
+(default “”, never None)
+Type:
+str
+
+
+
+bl_region_type
+The region where the panel is going to be used in (default 'WINDOW')
+Type:
+Literal[Region Type Items]
+
+
+
+bl_space_type
+The space where the panel is going to be used in (default 'EMPTY')
+Type:
+Literal[Space Type Items]
+
+
+
+gizmos
+List of gizmos in the Gizmo Map (default None, readonly)
+Type:
+Gizmos[Gizmo]
+
+
+
+name
+(default “”, readonly, never None)
+Type:
+str
+
+
+
+classmethod poll(context)
+Test if the gizmo group can be called or not
+Parameters:
+context (Context) – (never None)
+Return type:
+bool
+
+
+
+classmethod setup_keymap(keyconfig)
+Initialize keymaps for this gizmo group, use fallback keymap when not present
+Parameters:
+keyconfig (KeyConfig) – (never None)
+Returns:
+(never None)
+Return type:
+KeyMap
+
+
+
+setup(context)
+Create gizmos function for the gizmo group
+Parameters:
+context (Context) – (never None)
+
+
+
+refresh(context)
+Refresh data (called on common state changes such as selection)
+Parameters:
+context (Context) – (never None)
+
+
+
+draw_prepare(context)
+Run before each redraw
+Parameters:
+context (Context) – (never None)
+
+
+
+invoke_prepare(context, gizmo)
+Run before invoke
+Parameters:
+context (Context) – (never None)
+gizmo (Gizmo) – (never None)
+
+
+
+classmethod bl_rna_get_subclass(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (bpy.types.Struct | None) – The value to return when not found.
+
+Returns:
+The RNA type or default when not found.
+Return type:
+bpy.types.Struct
+
+
+
+classmethod bl_rna_get_subclass_py(id, default=None, /)
+Parameters:
+id (str) – The RNA type identifier.
+default (type | None) – The value to return when not found.
+
+Returns:
+The class or default when not found.
+Return type:
+type
+
+
+
+Inherited Properties
+bpy_struct.id_data
+
+
+
+Inherited Functions
+bpy_struct.as_pointer
+bpy_struct.driver_add
+bpy_struct.driver_remove
+bpy_struct.get
+bpy_struct.id_properties_clear
+bpy_struct.id_properties_ensure
+bpy_struct.id_properties_ui
+bpy_struct.is_property_hidden
+bpy_struct.is_property_overridable_library
+bpy_struct.is_property_readonly
+bpy_struct.is_property_set
+bpy_struct.items
+
+bpy_struct.keyframe_delete
+bpy_struct.keyframe_insert
+bpy_struct.keys
+bpy_struct.path_from_id
+bpy_struct.path_from_module
+bpy_struct.path_resolve
+bpy_struct.pop
+bpy_struct.property_overridable_library_set
+bpy_struct.property_unset
+bpy_struct.rna_ancestors
+bpy_struct.type_recast
+bpy_struct.values
+
+
+References
+Context.gizmo_group
+
+Gizmo.group
+
+
+        
