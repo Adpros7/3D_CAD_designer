@@ -19,3 +19,5 @@ md_files/*
 test.md
 stl.py
 blender_docs_deprecated/*
+*/blender_python_reference_5_1/*
+
