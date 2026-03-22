@@ -1,5 +1,10 @@
 import os
 
+
+os.removedirs(r'C:\Users\prani\Coding\AI\3D_CAD_designer\new\docs')
+os.mkdir(r'C:\Users\prani\Coding\AI\3D_CAD_designer\new\docs')
+
+
 for i in os.listdir(r'C:\Users\prani\Coding\AI\3D_CAD_designer\new\blender_python_reference_5_1'):
     # print(i)
     with open(f'C:/Users/prani/Coding/AI/3D_CAD_designer/new/blender_python_reference_5_1/{i}', 'r', encoding="utf-8") as f:
@@ -9,6 +14,9 @@ for i in os.listdir(r'C:\Users\prani\Coding\AI\3D_CAD_designer\new\blender_pytho
         data = data[start:end]
         extracted = ""
         extractedFlag = False
+
+        if data.count("\n") > 6900:
+            break
         for j in data:
             if j == ">":
                 extractedFlag = True

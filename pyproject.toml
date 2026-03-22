@@ -1,0 +1,16 @@
+[project]
+
+dependencies = [
+    "easier-openai",
+    "beautifulsoup4",
+    "scikit-learn",
+    "joblib",
+    "numpy",
+    "pyperclip",
+    "syntaxmod",
+]
+requires-python = "==3.13.9"
+name = "temp-project"
+version = "0.1.0"
+authors = [{ name = "Advik Mathur", email = "pranit.advik@gmail.com" }]
+
