@@ -1,7 +1,7 @@
 import os
 
 for i in os.listdir(r'C:\Users\prani\Coding\AI\3D_CAD_designer\new\blender_python_reference_5_1'):
-    print(i)
+    # print(i)
     with open(f'C:/Users/prani/Coding/AI/3D_CAD_designer/new/blender_python_reference_5_1/{i}', 'r', encoding="utf-8") as f:
         data = f.read()
         start = data.find('<article role="main" id="furo-main-content">')
@@ -20,5 +20,5 @@ for i in os.listdir(r'C:\Users\prani\Coding\AI\3D_CAD_designer\new\blender_pytho
             elif extractedFlag:
                 extracted += j
 
-        with open(f'C:/Users/prani/Coding/AI/3D_CAD_designer/new/docs/{i}', 'w', encoding="utf-8") as f:
+        with open(f'C:/Users/prani/Coding/AI/3D_CAD_designer/new/docs/{i.removesuffix(".html")}.md', 'w', encoding="utf-8") as f:
             f.write(extracted.replace("¶", "").replace("\n\n", "\n"))
