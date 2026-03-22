@@ -1,23 +1,24 @@
 # Python-generated files
-__pycache__/
+*/__pycache__/
 *.py[oc]
-build/
-dist/
-wheels/
+*/build/
+*/dist/
+*/wheels/
 *.egg-info
 
 # Virtual environments
-.venv
+*/.venv
 
-blender_txt/*
-blender_docs/*
-blender_docs_og/*
-*/blender_txt/
-html_files/
-.search_cache/
-md_files/*
-test.md
-stl.py
-blender_docs_deprecated/*
+*/blender_txt/*
+*/blender_docs/*
+*/blender_docs_og/*
+*/blender_txt/*
+*/html_files/*
+*/.search_cache/*
+*/md_files/*
+*/test.md
+*/stl.py
+*/blender_docs_deprecated/*
 */blender_python_reference_5_1/*
-
+new/docs/*
+vibe_coded/tests/html_files

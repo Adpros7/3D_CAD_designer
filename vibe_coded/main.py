@@ -2,7 +2,7 @@ import ast
 from pathlib import Path
 import subprocess
 import easier_openai
-from index_and_search import search
+from vibe_coded.index_and_search import search
 import pyperclip
 
 
