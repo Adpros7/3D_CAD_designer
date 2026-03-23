@@ -2,20 +2,24 @@ import json
 from easier_openai import Assistant
 from search import search
 
-with open("prompts.json") as f:
+with open(r"C:\Users\prani\Coding\AI\3D_CAD_designer\new\prompts.json") as f:
     prompts = json.load(f)
 
-inp = input("What do you want to design?\n")
+userInput = input("What do you want to design?\n")
 
-worker = Assistant(system_prompt=prompts["worker_system"], default_conversation=False, model="gpt-5.2")
-orchestration = Assistant(system_prompt=prompts["orchestration_system"], default_conversation=True, model="gpt-5.2")
+workerAgent = Assistant(system_prompt=prompts["worker_system"], default_conversation=False, model="gpt-5.2")
+orchestrationAgent = Assistant(system_prompt=prompts["orchestration_system"], default_conversation=True, model="gpt-5.2")
 
-search_terms: str = str(worker.chat(prompts["search_terms"].format(inp=inp)))
-print(search_terms + "\n\n\n\n\n\n")
+searchTerms: str = str(workerAgent.chat(prompts["search_terms"].format(inp=userInput)))
+print(searchTerms + "\n\n\n\n\n\n")
 
-results = [search(i, 1)[0] for i in search_terms.split(",")]
+searchResults = [search(i.strip(), 1)[0] if len(search(i.strip(), 1)) > 0 else None for i in searchTerms.split(",")]
 
-# print(results)
-parts = orchestration.chat(prompts["parts_decomposition"].format(inp=inp, results=results)).split(",")
+print(searchResults)
+modelParts = orchestrationAgent.chat(prompts["parts_decomposition"].format(inp=userInput, results=searchResults)).split(",")
 
-print(parts)
+partResults = []
+for i in modelParts:
+    partResults.append(workerAgent.chat(f"Your part in the project"))
+
+
