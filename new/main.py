@@ -1,4 +1,5 @@
 import json
+import subprocess
 import tempfile
 from pathlib import Path
 
@@ -10,6 +11,7 @@ with open(r"C:\Users\prani\Coding\AI\3D_CAD_designer\new\prompts.json") as f:
 
 userInput = input("What do you want to design?\n")
 path = input("Where do you want to save it?\n") or Path().home()
+nameOfFile = input("What do you want to call it?\n") or "output"
 stlOrBlend = input("Do you want to save it as a .stl or .blend file?\n")
 stlOrBlend = "stl" if "stl" in stlOrBlend.lower() else "blend"
 
@@ -30,7 +32,9 @@ searchResults = [
     for i in searchTerms.split(",")
 ]
 
+searchResults = [i[0] for i in searchResults if i is not None]
 print(searchResults)
+print("\n\n\n\n\n\n")
 modelParts = orchestrationAgent.chat(
     prompts["parts_decomposition"].format(inp=userInput, results=searchResults),
     file_search=searchResults,
@@ -41,7 +45,7 @@ for i in modelParts:
     partResults.append(
         workerAgent.chat(
             prompts["worker_task"].format(component=i),
-            custom_tools={"search documentation": search},
+            file_search=searchResults,
         )
     )
 
@@ -53,7 +57,9 @@ with tempfile.NamedTemporaryFile(
     name = f.name
     f.write(
         f"{final}\n\n\nbpy.ops.{"wm.save_as_mainfile" if stlOrBlend == "blend" else "export_mesh.stl"}\
-            (filepath='{path}/{name}.{stlOrBlend}')\n"
+            (filepath='{path}/{nameOfFile}.{stlOrBlend}')\n"
     )
 
-print(name)
+subprocess.Popen(
+    f"blender -b -P {name}", shell=True, creationflags=subprocess.CREATE_NO_WINDOW
+)
