@@ -1,11 +1,14 @@
 import json
+import tempfile
 from easier_openai import Assistant
 from search import search
+from pathlib import Path
 
 with open(r"C:\Users\prani\Coding\AI\3D_CAD_designer\new\prompts.json") as f:
     prompts = json.load(f)
 
 userInput = input("What do you want to design?\n")
+path = input("Where do you want to save it?\n") or Path().home()
 
 workerAgent = Assistant(system_prompt=prompts["worker_system"], default_conversation=False, model="gpt-5.2")
 orchestrationAgent = Assistant(system_prompt=prompts["orchestration_system"], default_conversation=True, model="gpt-5.2")
@@ -16,10 +19,16 @@ print(searchTerms + "\n\n\n\n\n\n")
 searchResults = [search(i.strip(), 1)[0] if len(search(i.strip(), 1)) > 0 else None for i in searchTerms.split(",")]
 
 print(searchResults)
-modelParts = orchestrationAgent.chat(prompts["parts_decomposition"].format(inp=userInput, results=searchResults)).split(",")
+modelParts = orchestrationAgent.chat(prompts["parts_decomposition"].format(inp=userInput, results=searchResults), file_search=searchResults).split(",")
 
 partResults = []
 for i in modelParts:
-    partResults.append(workerAgent.chat(f"Your part in the project"))
+    partResults.append(workerAgent.chat(prompts["worker_task"].format(component=i), custom_tools={"search documentation": search}))
 
+final = orchestrationAgent.chat(prompts["merge_code"].format(scripts=partResults))
 
+with tempfile.NamedTemporaryFile("w", delete=False, encoding="utf-8", suffix=".py") as f:
+    f.write(f"{final}\n\n\nbpy.ops.wm.save_as_mainfile(filepath='C:/Users/prani/hi.blend')")
+    name = f.name
+
+print(name)
