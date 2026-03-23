@@ -9,16 +9,16 @@ from search import search
 with open(r"C:\Users\prani\Coding\AI\3D_CAD_designer\new\prompts.json") as f:
     prompts = json.load(f)
 
-userInput = input("What do you want to design?\n")
-path = input("Where do you want to save it?\n") or Path().home()
-nameOfFile = input("What do you want to call it?\n") or "output"
+userInput: str = input("What do you want to design?\n")
+path: str | Path = input("Where do you want to save it?\n") or Path().home()
+nameOfFile: str = input("What do you want to call it?\n") or "output"
 stlOrBlend = input("Do you want to save it as a .stl or .blend file?\n")
 stlOrBlend = "stl" if "stl" in stlOrBlend.lower() else "blend"
 
-workerAgent = Assistant(
+workerAgent: Assistant = Assistant(
     system_prompt=prompts["worker_system"], default_conversation=False, model="gpt-5.2"
 )
-orchestrationAgent = Assistant(
+orchestrationAgent: Assistant = Assistant(
     system_prompt=prompts["orchestration_system"],
     default_conversation=True,
     model="gpt-5.2",
@@ -49,12 +49,12 @@ for i in modelParts:
         )
     )
 
-final = orchestrationAgent.chat(prompts["merge_code"].format(scripts=partResults))
+final: str = orchestrationAgent.chat(prompts["merge_code"].format(scripts=partResults))
 
 with tempfile.NamedTemporaryFile(
     "w", delete=False, encoding="utf-8", suffix=".py"
 ) as f:
-    name = f.name
+    name: str = f.name
     f.write(
         f"{final}\n\n\nbpy.ops.{"wm.save_as_mainfile" if stlOrBlend == "blend" else "export_mesh.stl"}\
             (filepath='{path}/{nameOfFile}.{stlOrBlend}')\n"
