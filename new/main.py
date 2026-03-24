@@ -46,7 +46,7 @@ modelParts: list[str] = orchestrationAgent.chat(
     return_full_response=False,
     stream=False
 ).split(",")
-
+modelParts = ["Gray Square"]
 print(modelParts)
 partResults = []
 for i in modelParts:
@@ -56,8 +56,9 @@ for i in modelParts:
             file_search=searchResults,
         )
     )
+    print(partResults[-1])
 
-final = orchestrationAgent.chat(prompts["merge_code"].format(scripts=partResults))
+final = orchestrationAgent.chat(prompts["merge_code"].format(scripts=partResults), text_stream=False, stream=False, return_full_response=False).removeprefix("```python\n").removesuffix("```")
 
 with tempfile.NamedTemporaryFile(
     "w", delete=False, encoding="utf-8", suffix=".py"
@@ -72,8 +73,10 @@ with tempfile.NamedTemporaryFile(
             (filepath='{path}/{nameOfFile}.{stlOrBlend}')\n")
 
 
+print("Running Blender...")
 subprocess.run(
     ["blender", "-b", "-P", name,]
 )
 
+print("Cleaning up...")
 os.remove(name)
