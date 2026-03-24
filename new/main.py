@@ -46,7 +46,7 @@ modelParts: list[str] = orchestrationAgent.chat(
     return_full_response=False,
     stream=False
 ).split(",")
-modelParts = ["Gray Square"]
+
 print(modelParts)
 partResults = []
 for i in modelParts:
