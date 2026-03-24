@@ -14,7 +14,11 @@ userInput: str = input("What do you want to design?\n")
 path: str | Path = input("Where do you want to save it?\n") or Path().home()
 nameOfFile: str = input("What do you want to call it?\n") or "output"
 stlOrBlend = input("Do you want to save it as a .stl or .blend file?\n")
-stlOrBlend = "stl" if "s" in stlOrBlend.lower() else "blend"
+stlOrBlend = (
+    "stl"
+    if "s" in input("Do you want to save it as a .stl or .blend file?\n").lower()
+    else "blend"
+)
 
 workerAgent: Assistant = Assistant(
     system_prompt=prompts["worker_system"], default_conversation=False, model="gpt-5.2"
