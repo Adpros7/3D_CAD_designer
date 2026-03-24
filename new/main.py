@@ -1,4 +1,5 @@
 import json
+import os
 import subprocess
 import tempfile
 from pathlib import Path
@@ -13,7 +14,7 @@ userInput: str = input("What do you want to design?\n")
 path: str | Path = input("Where do you want to save it?\n") or Path().home()
 nameOfFile: str = input("What do you want to call it?\n") or "output"
 stlOrBlend = input("Do you want to save it as a .stl or .blend file?\n")
-stlOrBlend = "stl" if "stl" in stlOrBlend.lower() else "blend"
+stlOrBlend = "stl" if "s" in stlOrBlend.lower() else "blend"
 
 workerAgent: Assistant = Assistant(
     system_prompt=prompts["worker_system"], default_conversation=False, model="gpt-5.2"
@@ -43,6 +44,7 @@ modelParts: list[str] = orchestrationAgent.chat(
     stream=False
 ).split(",")
 
+print(modelParts)
 partResults = []
 for i in modelParts:
     partResults.append(
@@ -60,9 +62,15 @@ with tempfile.NamedTemporaryFile(
     name: str = f.name
     f.write(
         f"{final}\n\n\nbpy.ops.{"wm.save_as_mainfile" if stlOrBlend == "blend" else "export_mesh.stl"}\
-            (filepath='{path}/{nameOfFile}.{stlOrBlend}')\n"
+            (filepath='{os.path.join(path, nameOfFile).replace("\\", "/")}.{stlOrBlend}')\n"
     )
 
-subprocess.Popen(
-    f"blender -b -P {name}", shell=True, creationflags=subprocess.CREATE_NO_WINDOW
+    print(name, f"{final}\n\n\nbpy.ops.{"wm.save_as_mainfile" if stlOrBlend == "blend" else "export_mesh.stl"}\
+            (filepath='{path}/{nameOfFile}.{stlOrBlend}')\n")
+
+
+subprocess.run(
+    ["blender", "-b", "-P", name,]
 )
+
+os.remove(name)
