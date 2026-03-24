@@ -35,9 +35,12 @@ searchResults = [
 searchResults = [i[0] for i in searchResults if i is not None]
 print(searchResults)
 print("\n\n\n\n\n\n")
-modelParts = orchestrationAgent.chat(
+modelParts: list[str] = orchestrationAgent.chat(
     prompts["parts_decomposition"].format(inp=userInput, results=searchResults),
     file_search=searchResults,
+    text_stream=False,
+    return_full_response=False,
+    stream=False
 ).split(",")
 
 partResults = []
@@ -49,7 +52,7 @@ for i in modelParts:
         )
     )
 
-final: str = orchestrationAgent.chat(prompts["merge_code"].format(scripts=partResults))
+final = orchestrationAgent.chat(prompts["merge_code"].format(scripts=partResults))
 
 with tempfile.NamedTemporaryFile(
     "w", delete=False, encoding="utf-8", suffix=".py"
